@@ -1,5 +1,5 @@
 import os
-from llama_index import TreeIndex, SimpleDirectoryReader, StorageContext, load_index_from_storage
+from llama_index.core import GPTVectorStoreIndex, Document, StorageContext, load_index_from_storage
 from langchain_ollama.llms import OllamaLLM
 
 class Index:
@@ -15,17 +15,17 @@ class Index:
                 initialize an index form base directory
             base_dir: path to the base directory (load OR init)
         """
-        self.base_model = OllamaLLM('llama3.2:1b')
+        self.base_model = OllamaLLM(base_url='http://localhost:11434', model='llama3.2:1b')
         self.base_dir = os.path.abspath(base_dir)
         match command:
             case 'load':
                 if not os.path.exists(self.base_dir):
-                    raise FileNotFoundError(msg='Specified folder does not exist')
+                    raise FileNotFoundError('Specified folder does not exist')
                 storage_context = StorageContext.from_defaults(persist_dir=self.base_dir)
                 self.index = load_index_from_storage(storage_context)
             case 'init':
-                documents = SimpleDirectoryReader(self.base_dir)
-                self.index = TreeIndex.from_documents(documents, llm=self.base_model)
+                documents = [Document(text=open(os.path.join(self.base_dir, doc)).read()) for doc in os.listdir(self.base_dir)]
+                self.index = GPTVectorStoreIndex(documents, llm=self.base_model)
         self.chat_bot = self.index.as_chat_engine()
         if attach_context is not None:
             self.attached_context = attach_context
@@ -54,4 +54,6 @@ class Index:
         return self.chat_bot.chat(prepped_mssg)
     
 if __name__ == '__main__':
-    print('Hello')
+    index = Index('init', 'portfolio_documents')
+    resp = index('What certifications has Saad Completed?')
+    print(resp)
