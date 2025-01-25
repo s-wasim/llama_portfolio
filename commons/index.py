@@ -1,6 +1,16 @@
 import os
-from llama_index.core import GPTVectorStoreIndex, Document, StorageContext, load_index_from_storage
-from langchain_ollama.llms import OllamaLLM
+from llama_index.core import (
+    VectorStoreIndex,
+    SimpleDirectoryReader, 
+    StorageContext, 
+    ServiceContext, 
+    load_index_from_storage
+)
+from llama_index.llms.groq import Groq
+from llama_index.core import Settings
+from private.private_keys import PrivateKeys
+from llama_index.embeddings.huggingface import HuggingFaceEmbedding
+
 
 class Index:
     def __init__(self, command:str, base_dir:str, attach_context:str=None):
@@ -15,7 +25,16 @@ class Index:
                 initialize an index form base directory
             base_dir: path to the base directory (load OR init)
         """
-        self.base_model = OllamaLLM(base_url='http://localhost:11434', model='llama3.2:1b')
+        # Initialize Grok with API key
+        keys = PrivateKeys()
+        self.base_model = Groq(
+            model='llama-3.2-1b-preview',
+            api_key=keys['groq'],
+            temperature=0.7
+        )
+        self.embedding_model = HuggingFaceEmbedding(model_name='sentence-transformers/all-MiniLM-L6-v2')
+        Settings.llm = self.base_model
+        Settings.embed_model = self.embedding_model
         self.base_dir = os.path.abspath(base_dir)
         match command:
             case 'load':
@@ -24,8 +43,9 @@ class Index:
                 storage_context = StorageContext.from_defaults(persist_dir=self.base_dir)
                 self.index = load_index_from_storage(storage_context)
             case 'init':
-                documents = [Document(text=open(os.path.join(self.base_dir, doc)).read()) for doc in os.listdir(self.base_dir)]
-                self.index = GPTVectorStoreIndex(documents, llm=self.base_model)
+                documents = SimpleDirectoryReader(self.base_dir).load_data()
+                self.index = VectorStoreIndex.from_documents(documents, show_progress=True, llm=self.base_model)
+        self.__save_index()
         self.chat_bot = self.index.as_chat_engine()
         if attach_context is not None:
             self.attached_context = attach_context
@@ -35,11 +55,11 @@ class Index:
             Use to qualifications to answer the question AND ensure to include the personality traits that are relevant to the job.
             """.strip().replace('\n', '')
     
-    def save_index(self):
+    def __save_index(self):
         """
             Saves the index to the storage directory
         """
-        self.index.storage_context.persist()
+        self.index.storage_context.persist('./storage')
     
     def __call__(self, mssg:str)->str:
         """

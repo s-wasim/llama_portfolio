@@ -1,2 +1,4 @@
 env
-__private__
+private
+.vscode
+helper_modules
