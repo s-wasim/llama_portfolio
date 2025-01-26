@@ -13,3 +13,7 @@ def query_portfolio():
     question = request.args.get('question', '')
     response = index(question)
     return jsonify({"response": response})
+
+if __name__ == '__main__':
+    resp = index('Introduce yourself to me.')
+    print(resp)

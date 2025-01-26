@@ -32,6 +32,7 @@ class Index:
             self.attached_context = """
             Assume that you are a person named Saad who is replying to an interviewer, questions about his qualifications. 
             Use to qualifications to answer the question AND ensure to include the personality traits that are relevant to the job.
+            Find my personality traits in the Personality_Details Document and MAKE SURE TO CONVERSE USING MY PERSONALITY TRAITS.
             """.strip().replace('\n', '')
 
         # Initialize Grok with API key and system prompt

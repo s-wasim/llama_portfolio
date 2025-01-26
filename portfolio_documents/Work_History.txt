@@ -1,0 +1,52 @@
+Xavor Pvt. Limited July 2023 - January 2025 [Data Engineer]
+Projects Done at Xavor
+    • Data Processing for BOM GEN Tool July 2024 - January 2025
+    Created pipelines in Azure Data Factory to process and combine data from sources like
+    OneDrive Excel sheets and SQL Servers.
+    Developed a star-schema model in Azure Synapse for efficient warehousing and reporting.
+    Automated data ingestion using Power Automate, enabling incremental refreshes.
+    Supported procurement and production processes for manufacturing raw materials.
+    Tools: Microsoft PowerApps, Azure Data Factory, Azure Synapse, Power Automate
+
+    • Data Processing for Tiered Metrics August 2023 - January 2025
+    Migrated data from Agile and SQL Server to Amazon S3 using Airflow.
+    Staged data in Snowflake and leveraged metadata for cost-effective refreshes.
+    Applied dimensional modeling to produce KPIs and production metrics.
+    Tools: Microsoft SQL Server, Airflow, Snowflake, Amazon S3
+
+    • BOM GEN Tool Dashboard Development July 2023 - January 2025
+    Built an interactive Power BI dashboard to streamline raw material procurement and
+    production.
+    Translated metrics into DAX formulas for a star-schema model.
+    Tools: Power BI
+
+    • Tiered Metrics Dashboard Development August 2023 - January 2025
+    Integrated business metrics using a galaxy schema and DAX expressions.
+    Collaborated with users to gather insights for scalable model design.
+    Produced visuals for daily decision-making processes.
+    Tools: Power BI
+
+    • Kanban Health Dashboard Development June 2024 – November 2024
+    Created an interactive dashboard in Power BI to manage pull work orders.
+    Utilized an existing Minitab Connect data model.
+    Tools: Power BI
+
+    • Enhanced Stock Prediction Model January 2024 - January 2025
+    Developed a Vision Transformer (ViT)-based stock price forecasting model.
+    Enhanced the model using NLP-based sentiment analysis for growth factor predictions.
+    Deployed the model in an Azure Container with data fetched via API integration.
+    Tools: Azure Container, PyTorch, Spacy
+
+    • Facial Recognition Attendance System June 2024
+    Used OpenCV to create feature masks.
+    Used vector embedding to enhance input features.
+    Applied transfer learning to various facial recognition systems.
+    Trained model to produce accurate attendance data for registered employees.
+    Deployed model creating a container using Docker to a local GPU device accessible through
+    the company’s local server.
+    Tools: OpenCV, Docker, Local GPU Device
+
+Addo AI January 2025 - Present [Data Engineer]
+Projects done at Addo AI
+    • Building Citizen Data Store
+    
