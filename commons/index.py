@@ -3,13 +3,13 @@ from llama_index.core import (
     VectorStoreIndex,
     SimpleDirectoryReader, 
     StorageContext, 
-    ServiceContext, 
     load_index_from_storage
 )
 from llama_index.llms.groq import Groq
 from llama_index.core import Settings
 from private.private_keys import PrivateKeys
 from llama_index.embeddings.huggingface import HuggingFaceEmbedding
+from helper_modules.model_download import setup_embedding_models
 
 
 class Index:
@@ -32,7 +32,12 @@ class Index:
             api_key=keys['groq'],
             temperature=0.7
         )
-        self.embedding_model = HuggingFaceEmbedding(model_name='sentence-transformers/all-MiniLM-L6-v2')
+        if not os.path.exists('model_cache'):
+            setup_embedding_models
+        self.embedding_model = HuggingFaceEmbedding(
+            model_name='sentence-transformers/all-MiniLM-L6-v2',
+            cache_folder='model_cache'
+        )
         Settings.llm = self.base_model
         Settings.embed_model = self.embedding_model
         self.base_dir = os.path.abspath(base_dir)
@@ -46,7 +51,11 @@ class Index:
                 documents = SimpleDirectoryReader(self.base_dir).load_data()
                 self.index = VectorStoreIndex.from_documents(documents, show_progress=True, llm=self.base_model)
         self.__save_index()
-        self.chat_bot = self.index.as_chat_engine()
+        self.chat_bot = self.index.as_chat_engine(
+            chat_mode="condense_question",
+            verbose=True,
+            max_iterations=3 
+        )
         if attach_context is not None:
             self.attached_context = attach_context
         else:

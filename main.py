@@ -1,4 +1,3 @@
-from private.private_keys import PrivateKeys
 from commons.index import Index
 
 if __name__ == '__main__':
