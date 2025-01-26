@@ -7,9 +7,9 @@ The project would progress from a simple chat bot module and expand into a full 
 1. Version 1
     - Produce RAG based model (llama as base)
     - Add knowledge-base that has details about me
-    - Enhance content to work better with RAG
 2. Version 2
-    - Add Sentiment analysis to evaluate sentiment of produced content
+    - Enhance content to work better with RAG (Add personality details here)
+    - ~~Add Sentiment analysis to evaluate sentiment of produced content~~
     - Evaluate produced content
     - Test results on a TTS module
 3. Version 3

@@ -25,13 +25,24 @@ class Index:
                 initialize an index form base directory
             base_dir: path to the base directory (load OR init)
         """
-        # Initialize Grok with API key
+        # Initialize context first
+        if attach_context is not None:
+            self.attached_context = attach_context
+        else:
+            self.attached_context = """
+            Assume that you are a person named Saad who is replying to an interviewer, questions about his qualifications. 
+            Use to qualifications to answer the question AND ensure to include the personality traits that are relevant to the job.
+            """.strip().replace('\n', '')
+
+        # Initialize Grok with API key and system prompt
         keys = PrivateKeys()
         self.base_model = Groq(
             model='llama-3.2-1b-preview',
             api_key=keys['groq'],
-            temperature=0.7
+            temperature=0.7,
+            system_prompt=self.attached_context
         )
+        
         if not os.path.exists('model_cache'):
             setup_embedding_models
         self.embedding_model = HuggingFaceEmbedding(
@@ -56,13 +67,6 @@ class Index:
             verbose=True,
             max_iterations=3 
         )
-        if attach_context is not None:
-            self.attached_context = attach_context
-        else:
-            self.attached_context = """
-            Assume that you are a person named Saad who is replying to an interviewer, questions about his qualifications. 
-            Use to qualifications to answer the question AND ensure to include the personality traits that are relevant to the job.
-            """.strip().replace('\n', '')
     
     def __save_index(self):
         """
