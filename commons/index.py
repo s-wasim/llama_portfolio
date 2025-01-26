@@ -40,7 +40,7 @@ class Index:
         self.base_model = Groq(
             model='llama-3.2-1b-preview',
             api_key=keys['groq'],
-            temperature=0.7,
+            temperature=0.3,
             system_prompt=self.attached_context
         )
         
