@@ -74,7 +74,7 @@ class Index:
                 self.index = VectorStoreIndex.from_documents(documents, show_progress=True, llm=self.base_model)
         self.__save_index()
         self.chat_bot = self.index.as_chat_engine(
-            chat_mode="condense_question",
+            chat_mode="context",
             verbose=True,
             max_iterations=3 
         )

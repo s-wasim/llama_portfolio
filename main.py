@@ -1,13 +1,13 @@
-from flask import Flask, render_template
+from flask import Flask, render_template, request, jsonify, send_from_directory
+from commons.index import Index
 
-app = Flask(__name__, 
-    static_url_path='',
-    static_folder='Frontend',
-    template_folder='Frontend')
-
-@app.route('/')
-def index():
-    return render_template('index.html')
+def main():
+    index = Index('load', 'storage')
+    while True:
+        mssg = input('Enter Message: ').strip()
+        response = index(mssg=mssg)
+        print('\t', response)
+        print(f'\n{"".join(["-"] * 70)}', end='\n\n')
 
 if __name__ == '__main__':
-    app.run(debug=True)
+    main()
