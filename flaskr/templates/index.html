@@ -3,50 +3,40 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Chat Interface</title>
-    <link rel="stylesheet" href="{{ url_for('static', filename='style/style.css') }}">
+    <title>Saad's Portfolio</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
 </head>
 <body>
-    <div id="display-area"></div>
-    <div id="input-container">
-        <textarea id="message-input" rows="3" placeholder="Type your message..."></textarea>
-        <button id="submit-btn">Send</button>
-    </div>
-
-    <script>
-        const displayArea = document.getElementById('display-area');
-        const messageInput = document.getElementById('message-input');
-        const submitButton = document.getElementById('submit-btn');
-
-        async function sendMessage() {
-            const message = messageInput.value.trim();
-            if (!message) return;
-
-            try {
-                const formData = new FormData();
-                formData.append('mssg', message);
-
-                const response = await fetch('/chat', {
-                    method: 'POST',
-                    body: formData
-                });
-
-                const data = await response.json();
-                displayArea.textContent = data.response;
-                messageInput.value = '';
-            } catch (error) {
-                console.error('Error:', error);
-                displayArea.textContent = 'Error processing request';
-            }
-        }
-
-        submitButton.addEventListener('click', sendMessage);
-        messageInput.addEventListener('keypress', (e) => {
-            if (e.key === 'Enter' && !e.shiftKey) {
-                e.preventDefault();
-                sendMessage();
-            }
-        });
-    </script>
+    <header id="main-header">
+        <div class="header-content">
+            <div class="personal-info">
+                <h1>Saad Waseem</h1>
+                <p class="role">Data Engineer | Data Analyst</p>
+                <p class="career-path">Aspiring: AI Engineer | ML Ops Engineer</p>
+            </div>
+            <nav class="header-nav">
+                <button class="nav-btn">Work History</button>
+                <button class="nav-btn">Education</button>
+                <button class="nav-btn">Certifications</button>
+                <button class="nav-btn">Courses</button>
+                <button class="nav-btn">Awards</button>
+            </nav>
+        </div>
+        <div class="contact-info">
+            <p><i class="fas fa-envelope"></i> s.w150700@hotmail.com</p>
+            <p><i class="fas fa-phone"></i> +92 339 007 1419</p>
+            <p><i class="fas fa-map-marker-alt"></i> DHA Phase 7, Sector Y, Lahore</p>
+            <p><i class="fas fa-calendar"></i> Started Work: July 2023</p>
+        </div>
+    </header>
+    <main class="chat-container">
+        <div id="display-area" class="chat-area"></div>
+        <div id="input-container">
+            <textarea id="message-input" placeholder="Type your message... (Press Enter to send)"></textarea>
+            <button id="submit-btn">Send</button>
+        </div>
+    </main>
+    <script src="{{ url_for('static', filename='js/script.js') }}"></script>
 </body>
 </html>
