@@ -211,7 +211,7 @@ body {
 #input-container {
     display: flex;
     gap: 10px;
-    width: calc(100% - 40px); /* Match display area width */
+    width: 100%; /* Match display area width */
     margin: 0 auto;
     height: 100px;
     box-sizing: border-box;
