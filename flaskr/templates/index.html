@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Chat Interface</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style/style.css') }}">
+</head>
+<body>
+    <div id="display-area"></div>
+    <div id="input-container">
+        <textarea id="message-input" rows="3" placeholder="Type your message..."></textarea>
+        <button id="submit-btn">Send</button>
+    </div>
+
+    <script>
+        const displayArea = document.getElementById('display-area');
+        const messageInput = document.getElementById('message-input');
+        const submitButton = document.getElementById('submit-btn');
+
+        async function sendMessage() {
+            const message = messageInput.value.trim();
+            if (!message) return;
+
+            try {
+                const formData = new FormData();
+                formData.append('mssg', message);
+
+                const response = await fetch('/chat', {
+                    method: 'POST',
+                    body: formData
+                });
+
+                const data = await response.json();
+                displayArea.textContent = data.response;
+                messageInput.value = '';
+            } catch (error) {
+                console.error('Error:', error);
+                displayArea.textContent = 'Error processing request';
+            }
+        }
+
+        submitButton.addEventListener('click', sendMessage);
+        messageInput.addEventListener('keypress', (e) => {
+            if (e.key === 'Enter' && !e.shiftKey) {
+                e.preventDefault();
+                sendMessage();
+            }
+        });
+    </script>
+</body>
+</html>

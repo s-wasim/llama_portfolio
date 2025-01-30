@@ -1,4 +1,3 @@
-from flask import Flask, render_template, request, jsonify, send_from_directory
 from commons.index import Index
 
 def main():
