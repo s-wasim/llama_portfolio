@@ -42,9 +42,9 @@ body {
     width: 100%;
     max-width: 1200px;
     margin: 0 auto;
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: space-between;
+    display: grid;
+    grid-template-columns: auto 1fr;
+    gap: 25px;
     align-items: center;
 }
 
@@ -66,27 +66,13 @@ body {
     opacity: 0.9;
 }
 
-.header-nav {
-    display: flex;
-    gap: 10px;
-    justify-content: center;
-    flex-wrap: wrap;
-    margin: 10px 0;
-    align-items: center;
-}
-
-.nav-btn {
-    background-color: var(--primary-pink);
-    color: var(--text-light);
-    border: 1px solid var(--light-pink);
-    padding: 8px 16px;
-    border-radius: 4px;
-    cursor: pointer;
-    transition: all 0.2s ease;
-}
-
-.nav-btn:hover {
-    background-color: var(--medium-pink);
+/* Remove these classes */
+.header-nav,
+.nav-btn,
+.nav-btn:hover,
+.header-nav.responsive,
+.nav-btn:first-child::after {
+    display: none;
 }
 
 .contact-info {
@@ -116,7 +102,7 @@ body {
 .chat-container {
     width: 100%;
     max-width: 1200px;
-    margin: calc(var(--header-height) + 20px) auto 20px;
+    margin: calc(var(--header-height) + 40px) auto 20px;
     padding: 0 40px;
     height: calc(100vh - var(--header-height) - 40px);
     display: flex;
@@ -129,16 +115,37 @@ body {
     min-height: 0;
     margin: 0 auto 20px;
     padding: 20px;
+    padding-bottom: 40px; /* Extra space after last message */
     border: 1px solid var(--light-pink);
     border-radius: 8px;
     overflow-y: auto;
+    scroll-behavior: smooth;
     background-color: var(--secondary-dark);
     box-shadow: 0 2px 4px rgba(0,0,0,0.1);
     transition: all 0.3s ease;
     display: flex;
     flex-direction: column;
     gap: 15px;
-    width: 100%;
+    width: calc(100% - 40px); /* Account for padding */
+}
+
+/* Custom scrollbar styling */
+#display-area::-webkit-scrollbar {
+    width: 8px;
+}
+
+#display-area::-webkit-scrollbar-track {
+    background: var(--secondary-dark);
+    border-radius: 4px;
+}
+
+#display-area::-webkit-scrollbar-thumb {
+    background: var(--medium-pink);
+    border-radius: 4px;
+}
+
+#display-area::-webkit-scrollbar-thumb:hover {
+    background: var(--primary-pink);
 }
 
 #display-area.loading::after {
@@ -164,11 +171,33 @@ body {
     border-bottom-right-radius: 5px;
 }
 
+.bot-message-container {
+    display: flex;
+    align-items: flex-start;
+    gap: 10px;
+    max-width: 80%;
+    align-self: flex-start;
+}
+
+.bot-avatar {
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    flex-shrink: 0;
+    background-image: url('/static/bot.jpg');
+    background-size: cover;
+    background-position: center;
+    border: 1px solid var(--primary-pink);
+}
+
+/* Remove or comment out the .bot-avatar i style since we won't be using the icon */
+
 .bot-message {
     align-self: flex-start;
     background-color: #333333;
     color: var(--text-light);
     border-bottom-left-radius: 5px;
+    margin: 0;
 }
 
 .typing-animation {
@@ -180,19 +209,18 @@ body {
 }
 
 #input-container {
-    height: 20%;
-    min-height: 100px;
     display: flex;
     gap: 10px;
-    width: 100%;
-    max-width: 1200px;
+    width: calc(100% - 40px); /* Match display area width */
     margin: 0 auto;
+    height: 100px;
     box-sizing: border-box;
     padding: 0;
 }
 
 #message-input {
-    flex: 0.9;
+    flex: 1;
+    min-width: 0; /* Prevents flex item from overflowing */
     padding: 15px;
     border: 1px solid var(--light-pink);
     border-radius: 8px;
@@ -204,8 +232,8 @@ body {
 }
 
 #submit-btn {
-    width: 10%;
-    height: 100%;
+    width: 100px;
+    flex-shrink: 0;
     background-color: var(--light-pink);
     color: var(--primary-dark);
     border: none;
@@ -243,34 +271,20 @@ body {
     to { opacity: 1; }
 }
 
-/* Dropdown for mobile */
+/* Remove the mobile dropdown section */
 @media (max-width: 768px) {
-    .header-nav {
-        position: relative;
-        width: 100%;
-    }
-
-    .nav-btn:not(:first-child) {
-        display: none;
-    }
-
-    .header-nav.responsive .nav-btn {
-        display: block;
-        width: 100%;
-        text-align: left;
-    }
-
-    .nav-btn:first-child::after {
-        content: " ▼";
-    }
-
-    .header-nav.responsive {
-        flex-direction: column;
-        position: absolute;
-        background: var(--primary-dark);
-        z-index: 1001;
-        padding: 10px;
-        border-radius: 4px;
-        border: 1px solid var(--primary-pink);
-    }
+    /* Just leave media query empty or remove it entirely */
 }
+
+.header-avatar {
+    width: 60px;
+    height: 60px;
+    border-radius: 50%;
+    background-image: url('/static/bot.jpg');
+    background-size: cover;
+    background-position: center;
+    border: 2px solid var(--light-pink);
+    flex-shrink: 0;
+}
+
+/* Remove the name-with-avatar class as it's no longer needed */

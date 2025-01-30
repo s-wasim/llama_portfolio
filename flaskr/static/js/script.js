@@ -5,31 +5,6 @@ document.addEventListener('DOMContentLoaded', () => {
     const header = document.getElementById('main-header');
     let lastScroll = 0;
 
-    // Add dropdown functionality
-    const headerNav = document.querySelector('.header-nav');
-    const firstNavBtn = headerNav.querySelector('.nav-btn');
-    
-    firstNavBtn.addEventListener('click', (e) => {
-        if (window.innerWidth <= 768) {
-            e.preventDefault();
-            headerNav.classList.toggle('responsive');
-        }
-    });
-
-    // Close dropdown when clicking outside
-    document.addEventListener('click', (e) => {
-        if (!headerNav.contains(e.target)) {
-            headerNav.classList.remove('responsive');
-        }
-    });
-
-    // Handle window resize
-    window.addEventListener('resize', () => {
-        if (window.innerWidth > 768) {
-            headerNav.classList.remove('responsive');
-        }
-    });
-
     // Handle header visibility on scroll
     window.addEventListener('scroll', () => {
         const currentScroll = window.pageYOffset;
@@ -42,9 +17,24 @@ document.addEventListener('DOMContentLoaded', () => {
     });
 
     function createMessageBubble(text, isUser = false) {
-        const bubble = document.createElement('div');
-        bubble.className = `message-bubble ${isUser ? 'user-message' : 'bot-message'}`;
-        return bubble;
+        if (isUser) {
+            const bubble = document.createElement('div');
+            bubble.className = 'message-bubble user-message';
+            return bubble;
+        } else {
+            const container = document.createElement('div');
+            container.className = 'bot-message-container';
+            
+            const avatar = document.createElement('div');
+            avatar.className = 'bot-avatar';
+            
+            const bubble = document.createElement('div');
+            bubble.className = 'message-bubble bot-message';
+            
+            container.appendChild(avatar);
+            container.appendChild(bubble);
+            return container;
+        }
     }
 
     async function animateText(element, text) {
@@ -62,6 +52,19 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     }
 
+    // Add auto-scroll functionality
+    function scrollToBottom() {
+        const displayArea = document.getElementById('display-area');
+        displayArea.scrollTop = displayArea.scrollHeight;
+    }
+
+    // Set up observer for auto-scroll
+    const observer = new MutationObserver(scrollToBottom);
+    observer.observe(displayArea, { 
+        childList: true, 
+        subtree: true 
+    });
+
     async function sendMessage() {
         const message = messageInput.value.trim();
         if (!message) return;
@@ -72,12 +75,13 @@ document.addEventListener('DOMContentLoaded', () => {
             userBubble.textContent = message;
             displayArea.appendChild(userBubble);
             messageInput.value = '';
-            displayArea.scrollTop = displayArea.scrollHeight;
+            scrollToBottom(); // Add scroll after user message
 
             // Show loading
             submitButton.disabled = true;
-            const botBubble = createMessageBubble('...');
-            displayArea.appendChild(botBubble);
+            const botContainer = createMessageBubble('...', false);
+            const botBubble = botContainer.querySelector('.bot-message');
+            displayArea.appendChild(botContainer);
 
             const formData = new FormData();
             formData.append('mssg', message);
@@ -91,11 +95,13 @@ document.addEventListener('DOMContentLoaded', () => {
             await animateText(botBubble, data.response);
         } catch (error) {
             console.error('Error:', error);
-            const errorBubble = createMessageBubble('Error processing request', false);
-            displayArea.appendChild(errorBubble);
+            const errorContainer = createMessageBubble('Error processing request', false);
+            const errorBubble = errorContainer.querySelector('.bot-message');
+            errorBubble.textContent = 'Error processing request';
+            displayArea.appendChild(errorContainer);
         } finally {
             submitButton.disabled = false;
-            displayArea.scrollTop = displayArea.scrollHeight;
+            scrollToBottom(); // Add scroll after bot response
         }
     }
 
