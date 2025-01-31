@@ -6,3 +6,5 @@ storage
 __pycache__
 flaskr_1
 .env
+compose.yaml
+compose.yaml

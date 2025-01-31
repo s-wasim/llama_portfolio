@@ -10,6 +10,9 @@ private/.env
 LICENSE
 README.md
 main.py
-portfolio_documents
-model_cache
-storage
+# Remove or comment out the following line
+# portfolio_documents
+# Add these exceptions
+!init-data/
+!init-data/storage/
+!init-data/model_cache/
