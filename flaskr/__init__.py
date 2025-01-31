@@ -3,13 +3,18 @@ import requests
 import os
 from typing import Dict
 from dotenv import load_dotenv
+import logging
+
+logging.basicConfig(level=logging.INFO)
+logger = logging.getLogger(__name__)
+app = Flask(__name__, instance_relative_config=True)
 
 class PortfolioAPIClient:
     def __init__(
         self, 
         host: str = "localhost", 
         port: int = 5000, 
-        protocol: str = "https",
+        protocol: str = "http",
         timeout: int = 30
     ):
         """
@@ -23,7 +28,6 @@ class PortfolioAPIClient:
         """
         self.base_url = f"{protocol}://{host}:{port}"
         self.timeout = timeout
-        self.session = requests.Session()
     
     def health_check(self) -> Dict:
         """Check if the API is healthy"""
@@ -35,19 +39,20 @@ class PortfolioAPIClient:
     
     def chat(self, message: str) -> Dict:
         """Send a chat message and get response"""
-        response = self.session.post(
+        payload = {"message": message}
+        response = requests.post(
             f"{self.base_url}/api/chat",
-            json={"message": message},
+            json=payload,
             timeout=self.timeout
         )
         return response.json()
 
 def create_app():
-    app = Flask(__name__, instance_relative_config=True)
     load_dotenv()
     client = PortfolioAPIClient(
         os.environ.get('API_HOST_URL'),
-        os.environ.get('API_PORT')
+        os.environ.get('API_PORT'),
+        os.environ.get('API_PROTOCOL')
     )
 
     @app.route('/')
@@ -57,8 +62,8 @@ def create_app():
     @app.route('/chat', methods=['POST'])
     def chat():
         mssg = request.form['mssg'].strip()
-        response = client.chat(mssg)['response']
-        return jsonify({'response': response.response})
+        response = client.chat(mssg)
+        return jsonify(response)
 
     @app.route('/favicon.ico')
     def favicon():
