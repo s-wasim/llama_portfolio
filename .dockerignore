@@ -9,3 +9,5 @@ private/.env
 .vscode
 LICENSE
 README.md
+main.py
+portfolio_documents

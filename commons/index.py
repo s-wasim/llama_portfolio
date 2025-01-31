@@ -14,7 +14,7 @@ from helper_modules.model_download import setup_embedding_models
 
 
 class Index:
-    def __init__(self, command:str, base_dir:str, attach_context:str=None):
+    def __init__(self, command:str, base_dir:str, attach_context:str=None, save=False):
         """
         returns:
             Index object
@@ -72,7 +72,8 @@ class Index:
             case 'init':
                 documents = SimpleDirectoryReader(self.base_dir).load_data()
                 self.index = VectorStoreIndex.from_documents(documents, show_progress=True, llm=self.base_model)
-        self.__save_index()
+        if save:
+            self.__save_index()
         self.chat_bot = self.index.as_chat_engine(
             chat_mode="context",
             verbose=True,

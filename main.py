@@ -1,7 +1,7 @@
 from commons.index import Index
-
+# Run me first!
 def main():
-    index = Index('load', 'storage')
+    index = Index('init', 'portfolio_documents', save=True)
     while True:
         mssg = input('Enter Message: ').strip()
         response = index(mssg=mssg)
