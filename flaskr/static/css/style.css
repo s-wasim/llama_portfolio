@@ -1,0 +1,329 @@
+:root {
+    --header-height: 120px;
+    --primary-dark: #2F2E2C;
+    --secondary-dark: #050505;
+    --primary-blue: #2270ec;
+    --accent-light: #8AB9F1;
+    --accent-medium: #F8DE7E;
+    --accent-dark: #FFC40A;
+    --text-light: #ffffff;
+    --message-padding: 15px;
+    --overlay-color: rgba(47, 46, 44, 0.85);
+    --chat-transparency: 0.8;
+    --header-transparency: 0.5;
+}
+
+body {
+    margin: 0;
+    padding: 0;
+    min-height: 100vh;
+    font-family: Arial, sans-serif;
+    background-color: var(--primary-dark);
+    color: var(--text-light);
+    position: relative;
+    overflow-x: hidden;
+}
+
+body::before {
+    content: '';
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: url('/static/background-img.jpg') no-repeat center center;
+    background-size: cover;
+    transform: translateZ(-1px) scale(2);
+    z-index: -2;
+}
+
+body::after {
+    content: '';
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: var(--overlay-color);
+    z-index: -1;
+}
+
+#main-header {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: var(--header-height);
+    background: linear-gradient(to right, 
+        rgba(5, 5, 5, var(--header-transparency)), 
+        rgba(34, 112, 236, var(--header-transparency))
+    );
+    box-shadow: 0 4px 25px rgba(34, 112, 236, 0.2);
+    transform: translateY(0);
+    transition: transform 0.3s ease;
+    z-index: 1000;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-direction: column;
+    border-bottom: 2px solid rgba(138, 185, 241, 0.5);
+    padding: 10px 40px;
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+}
+
+.header-content {
+    width: 100%;
+    max-width: 1200px;
+    margin: 0 auto;
+    display: grid;
+    grid-template-columns: auto 1fr;
+    gap: 25px;
+    align-items: center;
+}
+
+.personal-info {
+    flex: 1;
+    min-width: 300px;
+    text-align: left;
+}
+
+.personal-info h1 {
+    color: var(--accent-light);
+    margin: 0;
+    font-size: 2rem;
+}
+
+.role, .career-path {
+    margin: 5px 0;
+    color: var(--text-light);
+    opacity: 0.9;
+}
+
+/* Remove these classes */
+.header-nav,
+.nav-btn,
+.nav-btn:hover,
+.header-nav.responsive,
+.nav-btn:first-child::after {
+    display: none;
+}
+
+.contact-info {
+    width: 100%;
+    text-align: center;
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: 15px;
+    font-size: 0.85rem;
+    color: var(--text-light);
+    opacity: 0.8;
+    margin-top: 20px;
+}
+
+.contact-info p {
+    margin: 0;
+    display: flex;
+    align-items: center;
+    gap: 5px;
+}
+
+#main-header.hidden {
+    transform: translateY(calc(-1 * var(--header-height)));
+}
+
+.chat-container {
+    width: 100%;
+    max-width: 1200px;
+    margin: calc(var(--header-height) + 40px) auto 20px;
+    padding: 0 40px;
+    height: calc(100vh - var(--header-height) - 40px);
+    display: flex;
+    flex-direction: column;
+    box-sizing: border-box;
+    perspective: 1px;
+    transform-style: preserve-3d;
+}
+
+#display-area {
+    flex: 1;
+    min-height: 0;
+    margin: 0 auto 20px;
+    padding: 20px;
+    padding-bottom: 40px; /* Extra space after last message */
+    border: 1px solid var(--accent-light);
+    border-radius: 8px;
+    overflow-y: auto;
+    scroll-behavior: smooth;
+    background-color: rgba(5, 5, 5, var(--chat-transparency));
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    transition: all 0.3s ease;
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+    width: calc(100% - 40px); /* Account for padding */
+    backdrop-filter: blur(5px);
+}
+
+/* Custom scrollbar styling */
+#display-area::-webkit-scrollbar {
+    width: 8px;
+}
+
+#display-area::-webkit-scrollbar-track {
+    background: var(--secondary-dark);
+    border-radius: 4px;
+}
+
+#display-area::-webkit-scrollbar-thumb {
+    background: var(--accent-medium);
+    border-radius: 4px;
+}
+
+#display-area::-webkit-scrollbar-thumb:hover {
+    background: var(--accent-dark);
+}
+
+#display-area.loading::after {
+    content: "...";
+    animation: loading 1s infinite;
+}
+
+#display-area.response-in {
+    animation: fadeIn 0.3s ease;
+}
+
+.message-bubble {
+    max-width: 80%;
+    padding: var(--message-padding);
+    border-radius: 15px;
+    animation: fadeIn 0.3s ease;
+}
+
+.user-message {
+    align-self: flex-end;
+    background-color: var(--accent-light);
+    color: var(--secondary-dark);
+    border-bottom-right-radius: 5px;
+}
+
+.bot-message-container {
+    display: flex;
+    align-items: flex-start;
+    gap: 10px;
+    max-width: 80%;
+    align-self: flex-start;
+}
+
+.bot-avatar {
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    flex-shrink: 0;
+    background-image: url('/static/bot.jpg');
+    background-size: cover;
+    background-position: center;
+    border: 1px solid var(--primary-blue);
+}
+
+/* Remove or comment out the .bot-avatar i style since we won't be using the icon */
+
+.bot-message {
+    align-self: flex-start;
+    background-color: var(--primary-dark);
+    color: var(--text-light);
+    border-bottom-left-radius: 5px;
+    margin: 0;
+}
+
+.typing-animation {
+    display: inline-block;
+    min-width: auto;
+    opacity: 0;
+    animation: typeWriter 0.1s ease forwards;
+    white-space: pre-wrap;
+}
+
+#input-container {
+    display: flex;
+    gap: 10px;
+    width: 100%; /* Match display area width */
+    margin: 0 auto;
+    height: 100px;
+    box-sizing: border-box;
+    padding: 0;
+}
+
+#message-input {
+    flex: 1;
+    min-width: 0; /* Prevents flex item from overflowing */
+    padding: 15px;
+    border: 1px solid var(--accent-light);
+    border-radius: 8px;
+    resize: none;
+    font-size: 16px;
+    background-color: rgba(5, 5, 5, var(--chat-transparency));
+    color: var(--text-light);
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    backdrop-filter: blur(5px);
+}
+
+#submit-btn {
+    width: 100px;
+    flex-shrink: 0;
+    background-color: var(--accent-light);
+    color: var(--secondary-dark);
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    font-size: 1rem;
+    font-weight: bold;
+}
+
+#submit-btn:hover {
+    background-color: var(--accent-medium);
+    transform: translateY(-2px);
+}
+
+#submit-btn:disabled {
+    background-color: var(--primary-dark);
+    color: var(--text-light);
+    opacity: 0.5;
+    cursor: not-allowed;
+    transform: none;
+}
+
+@keyframes loading {
+    0% { content: "."; }
+    33% { content: ".."; }
+    66% { content: "..."; }
+}
+
+@keyframes fadeIn {
+    from { opacity: 0.5; }
+    to { opacity: 1; }
+}
+
+@keyframes typeWriter {
+    from { opacity: 0; }
+    to { opacity: 1; }
+}
+
+/* Remove the mobile dropdown section */
+@media (max-width: 768px) {
+    /* Just leave media query empty or remove it entirely */
+}
+
+.header-avatar {
+    width: 60px;
+    height: 60px;
+    border-radius: 50%;
+    background-image: url('/static/bot.jpg');
+    background-size: cover;
+    background-position: center;
+    border: 2px solid var(--accent-light);
+}
+
+/* Remove the name-with-avatar class as it's no longer needed */

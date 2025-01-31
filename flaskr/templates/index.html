@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Saad's Portfolio</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+</head>
+<body>
+    <header id="main-header">
+        <div class="header-content">
+            <div class="header-avatar"></div>
+            <div class="personal-info">
+                <h1>Saad Waseem</h1>
+                <p class="role">Data Engineer | Data Analyst</p>
+                <p class="career-path">Aspiring: AI Engineer | ML Ops Engineer</p>
+            </div>
+        </div>
+        <div class="contact-info">
+            <p>
+                <i class="fas fa-envelope"></i> s.w150700@hotmail.com &nbsp;|&nbsp;
+                <i class="fas fa-phone"></i> +92 339 007 1419 &nbsp;|&nbsp;
+                <i class="fas fa-map-marker-alt"></i> DHA Phase 7, Sector Y, Lahore &nbsp;|&nbsp;
+                <i class="fas fa-calendar"></i> Started Work: July 2023
+            </p>
+        </div>
+    </header>
+    <main class="chat-container">
+        <div id="display-area" class="chat-area"></div>
+        <div id="input-container">
+            <textarea id="message-input" placeholder="Talk to me... Literally"></textarea>
+            <button id="submit-btn">Send</button>
+        </div>
+    </main>
+    <script src="{{ url_for('static', filename='js/script.js') }}"></script>
+</body>
+</html>
