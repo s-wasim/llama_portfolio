@@ -53,38 +53,38 @@ class Index:
             temperature=0.3,
             system_prompt=self.attached_context
         )
-        
+        storage_path = os.environ.get('STORAGE_PATH', './storage')
+        cache_path = os.environ.get('CACHE_PATH', './model_cache')
         if not os.path.exists('model_cache'):
             setup_embedding_models()
         self.embedding_model = HuggingFaceEmbedding(
             model_name='sentence-transformers/all-MiniLM-L6-v2',
-            cache_folder='model_cache'
+            cache_folder=cache_path
         )
         Settings.llm = self.base_model
         Settings.embed_model = self.embedding_model
-        self.base_dir = os.path.abspath(base_dir)
         match command:
             case 'load':
-                if not os.path.exists(self.base_dir):
+                if not os.path.exists(storage_path):
                     raise FileNotFoundError('Specified folder does not exist')
-                storage_context = StorageContext.from_defaults(persist_dir=self.base_dir)
+                storage_context = StorageContext.from_defaults(persist_dir=storage_path)
                 self.index = load_index_from_storage(storage_context)
             case 'init':
-                documents = SimpleDirectoryReader(self.base_dir).load_data()
+                documents = SimpleDirectoryReader(storage_path).load_data()
                 self.index = VectorStoreIndex.from_documents(documents, show_progress=True, llm=self.base_model)
         if save:
-            self.__save_index()
+            self.__save_index(storage_path)
         self.chat_bot = self.index.as_chat_engine(
             chat_mode="context",
             verbose=True,
             max_iterations=3 
         )
     
-    def __save_index(self):
+    def __save_index(self, storage_loc):
         """
             Saves the index to the storage directory
         """
-        self.index.storage_context.persist('./storage')
+        self.index.storage_context.persist(storage_loc)
     
     def __call__(self, mssg:str)->str:
         """

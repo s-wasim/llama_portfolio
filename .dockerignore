@@ -11,3 +11,5 @@ LICENSE
 README.md
 main.py
 portfolio_documents
+model_cache
+storage
