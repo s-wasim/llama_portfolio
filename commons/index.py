@@ -12,6 +12,7 @@ from llama_index.embeddings.huggingface import HuggingFaceEmbedding
 from helper_modules.model_download import setup_embedding_models
 
 
+
 class Index:
     def __init__(self, command:str, base_dir:str, attach_context:str=None):
         """
@@ -30,21 +31,31 @@ class Index:
             self.attached_context = attach_context
         else:
             self.attached_context = """
-            Assume that you are a person named Saad who is replying to an interviewer, questions about his qualifications. 
-            Use to qualifications to answer the question AND ensure to include the personality traits that are relevant to the job.
+            STRICTLY FOLLOW THE INSTRUCTIONS BELOW:
+            1. ONLY use information from the Personality_Details Document to answer the questions.
+            2. Do not disclose sensitive/personal information
+            3. Stay within professional boundaries
+            4. YOU MAY Sparringly utalise external information TO ENHANCE THE RESPONSE. However,
+            DO NOT ADD any EXTRA INFORMATION, ONLY USE THE INFORMATION PROVIDED IN THE DOCUMENTS, IN THE RESPONSE.
+            5. STRICTLY behave LIKE SAAD. Refer to the Personality_Traits document repeatedly.
+            6. SINGLE SHORT AND CONCISE RESPONSE ONLY.
+            Follow the instructions below to respond:
+            Assume that you are a person named Saad who is replying to a person curious to know about me. 
+            Use the documents to answer the question AND ensure to include the personality traits that are relevant to the question asked.
+            Focus on highlighting my skills in a very natural and HUMAN WAY
             """.strip().replace('\n', '')
 
         # Initialize Grok with API key and system prompt
         keys = PrivateKeys()
         self.base_model = Groq(
-            model='llama-3.2-1b-preview',
+            model='llama-3.3-70b-versatile',
             api_key=keys['groq'],
-            temperature=0.7,
+            temperature=0.3,
             system_prompt=self.attached_context
         )
         
         if not os.path.exists('model_cache'):
-            setup_embedding_models
+            setup_embedding_models()
         self.embedding_model = HuggingFaceEmbedding(
             model_name='sentence-transformers/all-MiniLM-L6-v2',
             cache_folder='model_cache'
@@ -63,7 +74,7 @@ class Index:
                 self.index = VectorStoreIndex.from_documents(documents, show_progress=True, llm=self.base_model)
         self.__save_index()
         self.chat_bot = self.index.as_chat_engine(
-            chat_mode="condense_question",
+            chat_mode="context",
             verbose=True,
             max_iterations=3 
         )
@@ -83,10 +94,13 @@ class Index:
                     Message to be processed by the chat_bot
             Overrides the call command. Calling the object as a function executes this
         """
-        prepped_mssg = f'USE THE INSTRUCTIONS AHEAD TO RESPOND:{self.attached_context} - Interviewer Asks:{mssg}'
+        prepped_mssg = f'mssg: {mssg}'
+        if 'lets start over' in mssg.lower():
+            self.chat_bot.reset()
         return self.chat_bot.chat(prepped_mssg)
     
 if __name__ == '__main__':
+
     index = Index('init', 'portfolio_documents')
     resp = index('What certifications has Saad Completed?')
     print(resp)
