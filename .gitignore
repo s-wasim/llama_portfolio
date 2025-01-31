@@ -1,5 +1,5 @@
 env
-private
+private/.env
 .vscode
 model_cache
 storage
