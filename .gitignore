@@ -2,3 +2,4 @@ env
 private
 .vscode
 __pycache__
+.env

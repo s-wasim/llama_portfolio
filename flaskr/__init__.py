@@ -2,6 +2,7 @@ from flask import Flask, render_template, request, jsonify, send_from_directory
 import requests
 import os
 from typing import Dict
+from dotenv import load_dotenv
 
 class PortfolioAPIClient:
     def __init__(
@@ -43,6 +44,7 @@ class PortfolioAPIClient:
 
 def create_app():
     app = Flask(__name__, instance_relative_config=True)
+    load_dotenv()
     client = PortfolioAPIClient(
         os.environ.get('API_HOST_URL'),
         os.environ.get('API_PORT')
