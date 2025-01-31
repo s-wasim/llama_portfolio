@@ -30,19 +30,25 @@ def health_check():
 def chat():
     """Chat endpoint that processes messages"""
     try:
-        data = request.get_json()
-        if not data or 'message' not in data:
+        logger.info(f"Processing chat request, request type: {type(request)}")
+        message = None
+        if request.is_json:
+            data = request.get_json()
+            message = data.get('message', '').strip()
+        else:
+            message = request.args.get('message', '').strip()
+
+        if not message:
             return jsonify({
                 "error": "Invalid request",
                 "message": "Message field is required"
             }), 400
 
-        message = data['message'].strip()
         response = chat_index(message)
         
         return jsonify({
             "status": "success",
-            "response": response
+            "response": response.response
         })
 
     except Exception as e:
