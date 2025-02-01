@@ -194,28 +194,57 @@ async function loadWorkHistory() {
         html += '</div>';
         workSection.innerHTML = html;
 
-        // Set up intersection observer for animation
-        const timelineObserver = new IntersectionObserver((entries) => {
+        // Set up scroll-based timeline animation
+        const timeline = document.querySelector('.timeline');
+        const updateTimelineProgress = () => {
+            const timelineRect = timeline.getBoundingClientRect();
+            const timelineStart = timelineRect.top;
+            const viewportMidpoint = window.innerHeight / 2;
+            
+            // Calculate progress based on viewport midpoint
+            let progress;
+            if (timelineStart > viewportMidpoint) {
+                progress = 0;
+            } else if (timelineStart < -timelineRect.height) {
+                progress = 100;
+            } else {
+                const visiblePortion = viewportMidpoint - timelineStart;
+                progress = (visiblePortion / timelineRect.height) * 100;
+                progress = Math.min(Math.max(progress, 0), 100);
+            }
+            
+            timeline.style.setProperty('--timeline-progress', `${progress}%`);
+        };
+
+        // Initial update
+        updateTimelineProgress();
+
+        // Update on scroll
+        window.addEventListener('scroll', updateTimelineProgress);
+        window.addEventListener('resize', updateTimelineProgress);
+
+        // Setup intersection observer for individual items
+        const observer = new IntersectionObserver((entries) => {
             entries.forEach(entry => {
-                if (entry.isIntersecting) {
-                    entry.target.classList.add('visible');
+                const elementRect = entry.boundingClientRect;
+                const viewportMiddle = window.innerHeight / 2;
+                const elementMiddle = elementRect.top + (elementRect.height / 2);
+                
+                if (entry.isIntersecting && Math.abs(elementMiddle - viewportMiddle) < 150) { // Increased threshold
+                    // Add a small delay before adding the visible class
+                    setTimeout(() => {
+                        entry.target.classList.add('visible');
+                    }, 100);
+                    observer.unobserve(entry.target);
                 }
             });
         }, { 
-            threshold: 0.5, // Trigger when 50% of the content is in the screen
-            rootMargin: '-100px 0px'
+            threshold: [0, 0.2, 0.4, 0.6, 0.8], // More threshold points
+            rootMargin: '-45% 0px -45% 0px' // Slightly adjusted trigger area
         });
 
         document.querySelectorAll('.timeline-item').forEach(item => {
-            timelineObserver.observe(item);
-        });
-
-        // Update timeline fill color based on scroll progress
-        window.addEventListener('scroll', () => {
-            const timeline = document.querySelector('.timeline');
-            const rect = timeline.getBoundingClientRect();
-            const scrollProgress = Math.min(Math.max((window.innerHeight - rect.top) / (rect.height + window.innerHeight), 0), 1);
-            timeline.style.setProperty('--scroll-progress', scrollProgress);
+            observer.observe(item);
         });
     } catch (error) {
         console.error('Error loading work history:', error);

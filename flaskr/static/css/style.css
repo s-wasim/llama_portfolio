@@ -637,7 +637,7 @@ main {
     background: var(--accent-light);
     top: 0;
     bottom: 0;
-    height: calc(var(--scroll-progress, 0) * 100%);
+    height: var(--timeline-progress, 0%);
     left: 50%;
     margin-left: -1px;
     z-index: 2;
