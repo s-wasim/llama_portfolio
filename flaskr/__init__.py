@@ -65,6 +65,45 @@ def create_app():
         response = client.chat(mssg)
         return jsonify(response)
 
+    @app.route('/work-history')
+    def work_history():
+        try:
+            with open('portfolio_documents/Work_History.txt', 'r') as file:
+                content = file.read()
+                # Parse the content into structured data
+                companies = []
+                current_company = None
+                current_project = None
+                
+                for line in content.split('\n'):
+                    line = line.strip()
+                    if line and not line.startswith('    •'):
+                        # This is a company line
+                        if ' [' in line:
+                            company_name, role = line.split(' [')
+                            role = role.rstrip(']')
+                            current_company = {
+                                'name': company_name,
+                                'role': role,
+                                'projects': []
+                            }
+                            companies.append(current_company)
+                    elif line.startswith('    •'):
+                        # This is a project
+                        project_name = line.lstrip('    • ')
+                        current_project = {
+                            'name': project_name,
+                            'details': []
+                        }
+                        current_company['projects'].append(current_project)
+                    elif line.startswith('    ') and current_project:
+                        # This is a project detail
+                        current_project['details'].append(line.strip())
+                
+                return jsonify(companies)
+        except Exception as e:
+            return jsonify({'error': str(e)}), 500
+
     @app.route('/favicon.ico')
     def favicon():
         return send_from_directory('static', 'favicon.ico')

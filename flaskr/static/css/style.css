@@ -1,6 +1,6 @@
 :root {
     --header-height: 120px;
-    --primary-dark: #2F2E2C;
+    --primary-dark: #2f2e2c;
     --secondary-dark: #050505;
     --primary-blue: #2270ec;
     --accent-light: #8AB9F1;
@@ -8,7 +8,7 @@
     --accent-dark: #FFC40A;
     --text-light: #ffffff;
     --message-padding: 15px;
-    --overlay-color: rgba(47, 46, 44, 0.85);
+    --overlay-color: rgba(47, 46, 44, 0.95);
     --chat-transparency: 0.8;
     --header-transparency: 0.5;
 }
@@ -60,7 +60,8 @@ body::after {
     );
     box-shadow: 0 4px 25px rgba(34, 112, 236, 0.2);
     transform: translateY(0);
-    transition: transform 0.3s ease;
+    transition: transform 0.3s ease, opacity 0.3s ease;  /* Add opacity transition */
+    opacity: 1;
     z-index: 999;
     display: flex;
     align-items: center;
@@ -79,6 +80,7 @@ body::after {
     display: flex;  /* Change from grid to flex */
     align-items: center;
     gap: 25px;
+    transform: translateX(-5%); /* Move content to the left */
 }
 
 .personal-info {
@@ -99,14 +101,15 @@ body::after {
     opacity: 0.9;
 }
 
+/* Remove or comment out this block as it's hiding our nav buttons */
 /* Remove these classes */
-.header-nav,
+/*.header-nav,
 .nav-btn,
 .nav-btn:hover,
 .header-nav.responsive,
 .nav-btn:first-child::after {
     display: none;
-}
+}*/
 
 .contact-info {
     width: 100%;
@@ -129,23 +132,25 @@ body::after {
 }
 
 #main-header.hidden {
-    transform: translateY(calc(-1 * var(--header-height)));
+    transform: translateY(-100%);  /* Change to percentage */
+    opacity: 0;
 }
 
 .chat-container {
     width: 100%;
-    max-width: 1200px;
-    margin: calc(var(--header-height) + 40px) auto 20px;
-    padding: 0 40px;
-    height: calc(100vh - var(--header-height) - 40px);
+    margin: 0;
+    padding: 40px 0;
+    min-height: 90vh; /* Make it cover 90% of viewport height */
     display: flex;
     flex-direction: column;
     box-sizing: border-box;
-    perspective: 1px;
-    transform-style: preserve-3d;
+    margin-top: var(--header-height); /* Push it below header */
+    /* Removed background-color and box-shadow properties */
 }
 
 #display-area {
+    max-width: 1200px;
+    width: calc(100% - 80px); /* Account for padding */
     flex: 1;
     min-height: 0;
     margin: 0 auto 20px;
@@ -161,7 +166,6 @@ body::after {
     display: flex;
     flex-direction: column;
     gap: 15px;
-    width: calc(100% - 40px); /* Account for padding */
     backdrop-filter: blur(5px);
 }
 
@@ -245,9 +249,10 @@ body::after {
 }
 
 #input-container {
+    max-width: 1200px;
+    width: calc(100% - 80px);
     display: flex;
     gap: 10px;
-    width: 100%; /* Match display area width */
     margin: 0 auto;
     height: 100px;
     box-sizing: border-box;
@@ -442,6 +447,7 @@ body::after {
         flex-direction: row;  /* Ensure horizontal layout */
         justify-content: center;
         gap: 15px;
+        transform: translateX(0); /* Reset transform on mobile */
     }
     
     .header-avatar {
@@ -476,6 +482,27 @@ body::after {
         flex-direction: column;
         text-align: left;
     }
+
+    #display-area,
+    #input-container {
+        width: calc(100% - 40px);
+    }
+
+    #main-header {
+        transform: none !important; /* Prevent header from hiding */
+        height: auto; /* Allow header to adjust height */
+        min-height: var(--header-height);
+    }
+
+    .header-content {
+        padding: 10px 0; /* Add some padding for better spacing */
+    }
+
+    /* Remove the scroll-based header hiding in mobile */
+    #main-header.hidden {
+        transform: none !important;
+        opacity: 1 !important;
+    }
 }
 
 /* Remove the name-with-avatar class as it's no longer needed */
@@ -494,4 +521,195 @@ body::after {
 /* New class to disable scrolling */
 body.no-scroll {
     overflow: hidden;
+}
+
+/* Add styles for the navigation buttons and content sections */
+.nav-buttons {
+    display: flex;
+    gap: 10px;
+    margin-left: auto;
+    align-items: center;
+}
+
+.nav-btn {
+    display: inline-block;  /* Ensure buttons are visible */
+    background: none;
+    border: 1px solid var(--accent-light);
+    color: var(--accent-light);
+    padding: 8px 15px;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    font-size: 0.9rem;
+    white-space: nowrap;
+}
+
+.nav-btn:hover {
+    background: var(--accent-light);
+    color: var(--secondary-dark);
+}
+
+.content-sections {
+    width: 100%;
+    max-width: 1200px;
+    margin: 40px auto;
+    padding: 0 40px;
+    position: relative;
+    z-index: 2; /* Ensure sections appear above chat container */
+}
+
+.section-container {
+    background: rgba(5, 5, 5, var(--chat-transparency));
+    border: 1px solid var(--accent-light);
+    border-radius: 8px;
+    margin-bottom: 20px;
+    padding: 20px;
+    backdrop-filter: blur(5px);
+}
+
+.section-container h2 {
+    color: var(--accent-light);
+    margin-top: 0;
+    margin-bottom: 20px;
+    font-size: 1.5rem;
+}
+
+.mobile-nav {
+    display: none;
+}
+
+.mobile-nav .nav-btn {
+    width: 100%;
+    text-align: left;
+    padding: 12px 15px;
+}
+
+.side-panel .nav-buttons {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    gap: 10px;
+}
+
+.side-panel .nav-btn {
+    width: 100%;
+    text-align: left;
+    padding: 12px 15px;
+    font-size: 1rem;
+}
+
+@media (max-width: 768px) {
+    .header-content .nav-buttons {
+        display: none;
+    }
+    /* ...rest of existing media query code... */
+}
+
+main {
+    position: relative;
+}
+
+/* Add timeline styling */
+.timeline {
+    position: relative;
+    max-width: 1000px;
+    margin: 0 auto;
+    padding: 40px 0;
+}
+
+.timeline::after {
+    content: '';
+    position: absolute;
+    width: 2px;
+    background: var(--accent-light);
+    top: 0;
+    bottom: 0;
+    left: 50%;
+    margin-left: -1px;
+}
+
+.timeline-item {
+    padding: 10px 40px;
+    position: relative;
+    opacity: 0.3;
+    transform: translateY(20px);
+    transition: all 0.5s ease;
+}
+
+.timeline-item.visible {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+.timeline-marker {
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    width: 16px;
+    height: 16px;
+    background: var(--accent-light);
+    border-radius: 50%;
+    margin-left: -8px;
+    z-index: 1;
+}
+
+.company-content {
+    background: rgba(34, 112, 236, 0.1);
+    padding: 20px;
+    border-radius: 8px;
+    text-align: center;
+    margin: 0 auto;
+    max-width: 300px;
+}
+
+.project-content {
+    background: rgba(5, 5, 5, var(--chat-transparency));
+    padding: 20px;
+    border-radius: 8px;
+    width: calc(50% - 50px);
+    position: relative;
+}
+
+.timeline-item.left .project-content {
+    margin-left: auto;
+    margin-right: 50%;
+}
+
+.timeline-item.right .project-content {
+    margin-left: 50%;
+}
+
+.project-content h4 {
+    color: var(--accent-light);
+    margin-top: 0;
+}
+
+.project-details p {
+    margin: 5px 0;
+    font-size: 0.9rem;
+}
+
+@media (max-width: 768px) {
+    .timeline::after {
+        left: 31px;
+    }
+
+    .timeline-item {
+        padding-left: 70px;
+        padding-right: 20px;
+    }
+
+    .timeline-marker {
+        left: 31px;
+    }
+
+    .project-content {
+        width: 100%;
+        margin-left: 0 !important;
+    }
+
+    .company-content {
+        margin-left: 0;
+        text-align: left;
+    }
 }

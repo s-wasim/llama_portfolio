@@ -1,0 +1,22 @@
+SQL Associate Certificate - Datacamp
+Verification Link: https://www.datacamp.com/certificate/SQA0011727469884
+How to obtain:
+To obtain the Associate SQL Certification, this candidate had to demonstrate that they have the knowledge, skills, and abilities to successfully use SQL for data analysis. The competency domains assessed included, but were not limited to:
+- Data Management
+- Exploratory Analysis
+Typically these skills can take candidates 100+ hours to acquire over time.
+We tested the candidate's skills rigorously through:
+- Timed exams
+- Through a series of questions on a range of topics, we are able to establish that this individual has the knowledge required for a data analyst role. We make use of adaptive testing approaches to understand to a high degree of confidence the skill level of individuals who take the assessments.
+- Practical exam submission: This stage of the certification tests knowledge and skills across different domains. It is based on the DataCamp projects format, using DataLab. The candidate must complete a project that addresses a business problem.
+
+PL900 PowerPlatform Fundamentals - Microsoft
+Verification Link: https://learn.microsoft.com/api/credentials/share/en-gb/SaadWaseem-5465/64F0B6F55F2EAEF6?sharingId=AE9A92B732D5BB32
+Skills measured:
+- Describe the business value of Microsoft Power Platform
+- Identify foundational components of Microsoft Power Platform
+- Demonstrate the capabilities of Power BI
+- Demonstrate the capabilities of Power Apps
+- Demonstrate the capabilities of Power Automate
+- Demonstrate the capabilities of Power Pages
+- Describe the AI authoring experience in Microsoft Power Platform

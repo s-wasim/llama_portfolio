@@ -25,15 +25,17 @@ document.addEventListener('DOMContentLoaded', () => {
     const header = document.getElementById('main-header');
     let lastScroll = 0;
 
-    // Handle header visibility on scroll
+    // Update header visibility on scroll
     window.addEventListener('scroll', () => {
-        const currentScroll = window.pageYOffset;
-        if (currentScroll > lastScroll && currentScroll > 60) {
-            header.classList.add('hidden');
-        } else {
-            header.classList.remove('hidden');
+        if (window.innerWidth > 768) {  // Only for desktop
+            const currentScroll = window.pageYOffset;
+            if (currentScroll > lastScroll && currentScroll > 60) {
+                header.classList.add('hidden');
+            } else {
+                header.classList.remove('hidden');
+            }
+            lastScroll = currentScroll;
         }
-        lastScroll = currentScroll;
     });
 
     function createMessageBubble(text, isUser = false) {
@@ -132,4 +134,79 @@ document.addEventListener('DOMContentLoaded', () => {
             sendMessage();
         }
     });
+
+    // Add navigation functionality
+    const navButtons = document.querySelectorAll('.nav-btn');
+    
+    navButtons.forEach(button => {
+        button.addEventListener('click', () => {
+            const sectionId = button.getAttribute('data-section');
+            const section = document.getElementById(sectionId);
+            section.scrollIntoView({ behavior: 'smooth' });
+            
+            // Close side panel if open
+            if (sidePanel.classList.contains('open')) {
+                hamburgerBtn.classList.remove('open');
+                sidePanel.classList.remove('open');
+                document.body.classList.remove('no-scroll');
+            }
+        });
+    });
+
+    loadWorkHistory();
 });
+
+async function loadWorkHistory() {
+    try {
+        const response = await fetch('/work-history');
+        const data = await response.json();
+        const workSection = document.querySelector('#work .section-content');
+        
+        let html = '<div class="timeline">';
+        
+        data.forEach((company, index) => {
+            html += `
+                <div class="timeline-item company">
+                    <div class="timeline-marker"></div>
+                    <div class="company-content">
+                        <h3>${company.name}</h3>
+                        <p class="role">${company.role}</p>
+                    </div>
+                </div>
+            `;
+            
+            company.projects.forEach((project, pIndex) => {
+                const isEven = pIndex % 2 === 0;
+                html += `
+                    <div class="timeline-item project ${isEven ? 'left' : 'right'}">
+                        <div class="timeline-marker"></div>
+                        <div class="project-content">
+                            <h4>${project.name}</h4>
+                            <div class="project-details">
+                                ${project.details.map(detail => `<p>${detail}</p>`).join('')}
+                            </div>
+                        </div>
+                    </div>
+                `;
+            });
+        });
+        
+        html += '</div>';
+        workSection.innerHTML = html;
+
+        // Set up intersection observer for animation
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('visible');
+                }
+            });
+        }, { threshold: 0.6 });
+
+        document.querySelectorAll('.timeline-item').forEach(item => {
+            observer.observe(item);
+        });
+    } catch (error) {
+        console.error('Error loading work history:', error);
+    }
+}

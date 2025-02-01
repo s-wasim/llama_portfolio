@@ -15,6 +15,14 @@
     </button>
     <div class="side-panel">
         <h2>MENU</h2>
+        <nav class="nav-buttons">
+            <button class="nav-btn" data-section="work">Work History</button>
+            <button class="nav-btn" data-section="education">Education</button>
+            <button class="nav-btn" data-section="certifications">Certifications</button>
+            <button class="nav-btn" data-section="courses">Courses</button>
+            <button class="nav-btn" data-section="projects">Projects</button>
+            <button class="nav-btn" data-section="awards">Awards</button>
+        </nav>
         <div class="contact-info side-panel-contact">
             <span><i class="fas fa-envelope"></i> s.w150700@hotmail.com</span>
             <span><i class="fas fa-phone"></i> +92 339 007 1419</span>
@@ -30,6 +38,14 @@
                 <p class="role">Data Engineer | Data Analyst</p>
                 <p class="career-path">Aspiring: AI | ML Ops Engineer</p>
             </div>
+            <nav class="nav-buttons">
+                <button class="nav-btn" data-section="work">Work History</button>
+                <button class="nav-btn" data-section="education">Education</button>
+                <button class="nav-btn" data-section="certifications">Certifications</button>
+                <button class="nav-btn" data-section="courses">Courses</button>
+                <button class="nav-btn" data-section="projects">Projects</button>
+                <button class="nav-btn" data-section="awards">Awards</button>
+            </nav>
         </div>
         <div class="contact-info">
             <p>
@@ -40,11 +56,45 @@
             </p>
         </div>
     </header>
-    <main class="chat-container">
-        <div id="display-area" class="chat-area"></div>
-        <div id="input-container">
-            <textarea id="message-input" placeholder="Talk to me... Literally"></textarea>
-            <button id="submit-btn">Send</button>
+    <main>
+        <div class="chat-container">
+            <div id="display-area" class="chat-area"></div>
+            <div id="input-container">
+                <textarea id="message-input" placeholder="Talk to me... Literally"></textarea>
+                <button id="submit-btn">Send</button>
+            </div>
+        </div>
+        
+        <div class="content-sections">
+            <section id="work" class="section-container">
+                <h2>Work History</h2>
+                <div class="section-content"></div>
+            </section>
+            
+            <section id="education" class="section-container">
+                <h2>Education</h2>
+                <div class="section-content"></div>
+            </section>
+            
+            <section id="certifications" class="section-container">
+                <h2>Certifications</h2>
+                <div class="section-content"></div>
+            </section>
+            
+            <section id="courses" class="section-container">
+                <h2>Courses Completed</h2>
+                <div class="section-content"></div>
+            </section>
+            
+            <section id="projects" class="section-container">
+                <h2>Personal Projects</h2>
+                <div class="section-content"></div>
+            </section>
+            
+            <section id="awards" class="section-container">
+                <h2>Awards & Recognitions</h2>
+                <div class="section-content"></div>
+            </section>
         </div>
     </main>
     <script src="{{ url_for('static', filename='js/script.js') }}"></script>
