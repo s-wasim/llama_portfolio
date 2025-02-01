@@ -199,26 +199,23 @@ async function loadWorkHistory() {
             entries.forEach(entry => {
                 if (entry.isIntersecting) {
                     entry.target.classList.add('visible');
-                    // Update timeline progress
-                    const timeline = document.querySelector('.timeline');
-                    const items = timeline.querySelectorAll('.timeline-item');
-                    const visibleItems = Array.from(items).filter(item => 
-                        item.classList.contains('visible')
-                    );
-                    const progress = visibleItems.length / items.length;
-                    timeline.style.setProperty('--progress', progress);
-                    if (progress === 1) {
-                        timeline.classList.add('scrolled');
-                    }
                 }
             });
         }, { 
-            threshold: 0.6,
+            threshold: 0.5, // Trigger when 50% of the content is in the screen
             rootMargin: '-100px 0px'
         });
 
         document.querySelectorAll('.timeline-item').forEach(item => {
             timelineObserver.observe(item);
+        });
+
+        // Update timeline fill color based on scroll progress
+        window.addEventListener('scroll', () => {
+            const timeline = document.querySelector('.timeline');
+            const rect = timeline.getBoundingClientRect();
+            const scrollProgress = Math.min(Math.max((window.innerHeight - rect.top) / (rect.height + window.innerHeight), 0), 1);
+            timeline.style.setProperty('--scroll-progress', scrollProgress);
         });
     } catch (error) {
         console.error('Error loading work history:', error);

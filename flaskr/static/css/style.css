@@ -615,6 +615,7 @@ main {
     max-width: 1000px;
     margin: 0 auto;
     padding: 40px 0;
+    z-index: 1; /* Ensure timeline is behind text containers */
 }
 
 .timeline::after {
@@ -635,11 +636,12 @@ main {
     width: 2px;
     background: var(--accent-light);
     top: 0;
-    bottom: 100%;
+    bottom: 0;
+    height: calc(var(--scroll-progress, 0) * 100%);
     left: 50%;
     margin-left: -1px;
     z-index: 2;
-    transition: bottom 0.5s ease;
+    transition: height 0.1s ease;
 }
 
 .timeline.scrolled::before {
@@ -653,6 +655,7 @@ main {
     transform: translateY(20px);
     transition: all 0.5s ease;
     margin-bottom: 30px;
+    z-index: 2; /* Ensure text containers are above timeline */
 }
 
 .timeline-item::before {
