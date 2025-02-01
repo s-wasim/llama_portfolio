@@ -131,3 +131,4 @@ Topics in Course:
     Topic Description: In this chapter you will delve into the details of logistic regression. You'll learn all about regularization and how to interpret model output.
 4) Topic - Support Vector Machines
     Topic Description: In this chapter you will learn all about the details of support vector machines. You'll learn about tuning hyperparameters for these models and using kernels to fit non-linear decision boundaries.
+Libraries Used: scikit-learn

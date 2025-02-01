@@ -796,3 +796,157 @@ main {
     opacity: 1;
     transform: translateY(0);
 }
+
+/* Add styles for the certification cards */
+.certification-card {
+    width: 100%;
+    height: 200px;
+    perspective: 1000px;
+    margin: 20px 0;
+    cursor: pointer;
+}
+
+.certification-card-inner {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    text-align: center;
+    transition: transform 0.6s;
+    transform-style: preserve-3d;
+}
+
+.certification-card:hover .certification-card-inner {
+    transform: rotateY(180deg);
+}
+
+.certification-card-front, .certification-card-back {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    backface-visibility: hidden;
+    border: 1px solid var(--accent-light);
+    border-radius: 8px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+    box-sizing: border-box;
+}
+
+.certification-card-front {
+    background-color: var(--primary-dark);
+    color: var(--accent-light);
+}
+
+.certification-card-back {
+    background-color: var(--secondary-dark);
+    color: var(--text-light);
+    transform: rotateY(180deg);
+}
+
+.certification-card-back pre {
+    white-space: pre-wrap;
+    text-align: left;
+}
+
+/* Add styles for the course cards */
+.course-card {
+    width: 100%;
+    height: 200px;
+    perspective: 1000px;
+    margin: 20px 0;
+    cursor: pointer;
+}
+
+.course-card-inner {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    text-align: center;
+    transition: transform 0.6s;
+    transform-style: preserve-3d;
+}
+
+.course-card:hover .course-card-inner {
+    transform: rotateY(180deg);
+}
+
+.course-card-front, .course-card-back {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    backface-visibility: hidden;
+    border: 1px solid var(--accent-light);
+    border-radius: 8px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+    box-sizing: border-box;
+}
+
+.course-card-front {
+    background-color: var(--primary-dark);
+    color: var(--accent-light);
+}
+
+.course-card-back {
+    background-color: var(--secondary-dark);
+    color: var(--text-light);
+    transform: rotateY(180deg);
+}
+
+.course-card-back button {
+    background-color: var(--accent-light);
+    color: var(--secondary-dark);
+    border: none;
+    padding: 10px 20px;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.course-card-back button:hover {
+    background-color: var(--accent-medium);
+}
+
+.libraries-used {
+    font-size: 0.8rem;
+    color: var(--accent-medium);
+}
+
+/* Add styles for the course cards to display in a grid without flipping */
+.courses-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 20px;
+}
+
+.course-card {
+    height: 200px;
+    cursor: pointer;
+    border: 1px solid var(--accent-light);
+    border-radius: 8px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+    box-sizing: border-box;
+    background-color: var(--primary-dark);
+    color: var(--accent-light);
+    transition: transform 0.3s ease, background-color 0.3s ease;
+}
+
+.course-card:hover {
+    transform: translateY(-5px);
+    background-color: var(--secondary-dark);
+}
+
+.course-card-content {
+    text-align: center;
+}
+
+.libraries-used {
+    font-size: 0.8rem;
+    color: var(--accent-medium);
+}

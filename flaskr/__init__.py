@@ -160,6 +160,79 @@ def create_app():
             logger.error(f"Error parsing education details: {str(e)}")
             return jsonify({'error': str(e)}), 500
 
+    @app.route('/certification-details')
+    def certification_details():
+        try:
+            with open('portfolio_documents/Certification_Details.txt', 'r') as file:
+                content = file.read()
+                certifications = []
+                
+                lines = content.split('\n')
+                i = 0
+                while i < len(lines):
+                    line = lines[i].strip()
+                    
+                    if line.startswith('Certification Name:'):
+                        name = line.replace('Certification Name:', '').strip()
+                        link = lines[i + 1].replace('Verification Link:', '').strip()
+                        details = []
+                        i += 2
+                        while i < len(lines) and lines[i].strip():
+                            details.append(lines[i])
+                            i += 1
+                        
+                        certification = {
+                            'name': name,
+                            'link': link,
+                            'details': '\n'.join(details)
+                        }
+                        certifications.append(certification)
+                    
+                    i += 1
+                
+                return jsonify(certifications)
+                
+        except Exception as e:
+            logger.error(f"Error parsing certification details: {str(e)}")
+            return jsonify({'error': str(e)}), 500
+
+    @app.route('/courses-studied')
+    def courses_studied():
+        try:
+            with open('portfolio_documents/Courses_Studied.txt', 'r') as file:
+                content = file.read()
+                courses = []
+                
+                lines = content.split('\n')
+                i = 0
+                while i < len(lines):
+                    line = lines[i].strip()
+                    
+                    if line and not line.startswith('1)'):
+                        course_name = line
+                        link = lines[i + 1].replace('Link to Achievement:', '').strip()
+                        libraries = ''
+                        i += 2
+                        while i < len(lines) and lines[i].strip():
+                            if lines[i].startswith('Libraries Used:'):
+                                libraries = lines[i].replace('Libraries Used:', '').strip()
+                            i += 1
+                        
+                        course = {
+                            'name': course_name,
+                            'link': link,
+                            'libraries': libraries
+                        }
+                        courses.append(course)
+                    
+                    i += 1
+                
+                return jsonify(courses)
+                
+        except Exception as e:
+            logger.error(f"Error parsing courses studied: {str(e)}")
+            return jsonify({'error': str(e)}), 500
+
     @app.route('/favicon.ico')
     def favicon():
         return send_from_directory('static', 'favicon.ico')

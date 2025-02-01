@@ -155,6 +155,8 @@ document.addEventListener('DOMContentLoaded', () => {
 
     loadWorkHistory();
     loadEducation();
+    loadCertifications();
+    loadCourses();
 });
 
 async function loadWorkHistory() {
@@ -331,5 +333,60 @@ async function loadEducation() {
         });
     } catch (error) {
         console.error('Error loading education details:', error);
+    }
+}
+
+async function loadCertifications() {
+    try {
+        const response = await fetch('/certification-details');
+        const data = await response.json();
+        const certificationsSection = document.querySelector('#certifications .section-content');
+        
+        let html = '';
+        
+        data.forEach((certification, index) => {
+            html += `
+                <div class="certification-card" onclick="window.open('${certification.link}', '_blank')">
+                    <div class="certification-card-inner">
+                        <div class="certification-card-front">
+                            <h3>${certification.name}</h3>
+                        </div>
+                        <div class="certification-card-back">
+                            <pre>${certification.details}</pre>
+                        </div>
+                    </div>
+                </div>
+            `;
+        });
+        
+        certificationsSection.innerHTML = html;
+    } catch (error) {
+        console.error('Error loading certification details:', error);
+    }
+}
+
+async function loadCourses() {
+    try {
+        const response = await fetch('/courses-studied');
+        const data = await response.json();
+        const coursesSection = document.querySelector('#courses .section-content');
+        
+        let html = '<div class="courses-grid">';
+        
+        data.forEach((course, index) => {
+            html += `
+                <div class="course-card" onclick="window.open('${course.link}', '_blank')">
+                    <div class="course-card-content">
+                        <h3>${course.name}</h3>
+                        <p class="libraries-used">${course.libraries}</p>
+                    </div>
+                </div>
+            `;
+        });
+        
+        html += '</div>';
+        coursesSection.innerHTML = html;
+    } catch (error) {
+        console.error('Error loading courses studied:', error);
     }
 }
