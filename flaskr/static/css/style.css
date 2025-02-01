@@ -950,3 +950,12 @@ main {
     font-size: 0.8rem;
     color: var(--accent-medium);
 }
+
+a {
+    color: var(--text-light);
+    text-decoration: none;
+}
+
+a:hover {
+    text-decoration: underline;
+}
