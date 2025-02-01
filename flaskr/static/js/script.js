@@ -195,16 +195,30 @@ async function loadWorkHistory() {
         workSection.innerHTML = html;
 
         // Set up intersection observer for animation
-        const observer = new IntersectionObserver((entries) => {
+        const timelineObserver = new IntersectionObserver((entries) => {
             entries.forEach(entry => {
                 if (entry.isIntersecting) {
                     entry.target.classList.add('visible');
+                    // Update timeline progress
+                    const timeline = document.querySelector('.timeline');
+                    const items = timeline.querySelectorAll('.timeline-item');
+                    const visibleItems = Array.from(items).filter(item => 
+                        item.classList.contains('visible')
+                    );
+                    const progress = visibleItems.length / items.length;
+                    timeline.style.setProperty('--progress', progress);
+                    if (progress === 1) {
+                        timeline.classList.add('scrolled');
+                    }
                 }
             });
-        }, { threshold: 0.6 });
+        }, { 
+            threshold: 0.6,
+            rootMargin: '-100px 0px'
+        });
 
         document.querySelectorAll('.timeline-item').forEach(item => {
-            observer.observe(item);
+            timelineObserver.observe(item);
         });
     } catch (error) {
         console.error('Error loading work history:', error);

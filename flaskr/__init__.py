@@ -70,38 +70,60 @@ def create_app():
         try:
             with open('portfolio_documents/Work_History.txt', 'r') as file:
                 content = file.read()
-                # Parse the content into structured data
                 companies = []
                 current_company = None
                 current_project = None
                 
-                for line in content.split('\n'):
-                    line = line.strip()
-                    if line and not line.startswith('    •'):
-                        # This is a company line
-                        if ' [' in line:
-                            company_name, role = line.split(' [')
-                            role = role.rstrip(']')
+                lines = content.split('\n')
+                i = 0
+                while i < len(lines):
+                    line = lines[i].strip()
+                    
+                    # Parse company info
+                    if line and not line.startswith('PROJECT'):
+                        if '[' in line:
+                            company_parts = line.split('[')
+                            company_name = company_parts[0].strip()
+                            role = company_parts[1].rstrip(']').strip()
                             current_company = {
                                 'name': company_name,
                                 'role': role,
                                 'projects': []
                             }
                             companies.append(current_company)
-                    elif line.startswith('    •'):
-                        # This is a project
-                        project_name = line.lstrip('    • ')
+                    
+                    # Parse project info
+                    elif line.startswith('PROJECT NAME:'):
+                        project_name = line.replace('PROJECT NAME:', '').strip()
                         current_project = {
                             'name': project_name,
-                            'details': []
+                            'details': [],
+                            'tools': []
                         }
                         current_company['projects'].append(current_project)
-                    elif line.startswith('    ') and current_project:
-                        # This is a project detail
-                        current_project['details'].append(line.strip())
+                    
+                    # Parse project details
+                    elif line.startswith('PROJECT DETAILS:'):
+                        i += 1
+                        while i < len(lines) and not lines[i].strip().startswith('PROJECT'):
+                            detail = lines[i].strip()
+                            if detail and not detail.startswith('PROJECT'):
+                                current_project['details'].append(detail)
+                            i += 1
+                        i -= 1
+                        
+                    # Parse project tools
+                    elif line.startswith('PROJECT TOOLS:'):
+                        tools = line.replace('PROJECT TOOLS:', '').strip()
+                        if tools:
+                            current_project['tools'] = [t.strip() for t in tools.split(',')]
+                    
+                    i += 1
                 
                 return jsonify(companies)
+                
         except Exception as e:
+            logger.error(f"Error parsing work history: {str(e)}")
             return jsonify({'error': str(e)}), 500
 
     @app.route('/favicon.ico')

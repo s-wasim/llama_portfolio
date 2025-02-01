@@ -621,11 +621,29 @@ main {
     content: '';
     position: absolute;
     width: 2px;
-    background: var(--accent-light);
+    background: rgba(138, 185, 241, 0.2); /* Transparent line */
     top: 0;
     bottom: 0;
     left: 50%;
     margin-left: -1px;
+    z-index: 1;
+}
+
+.timeline::before {
+    content: '';
+    position: absolute;
+    width: 2px;
+    background: var(--accent-light);
+    top: 0;
+    bottom: 100%;
+    left: 50%;
+    margin-left: -1px;
+    z-index: 2;
+    transition: bottom 0.5s ease;
+}
+
+.timeline.scrolled::before {
+    bottom: 0;
 }
 
 .timeline-item {
@@ -634,6 +652,25 @@ main {
     opacity: 0.3;
     transform: translateY(20px);
     transition: all 0.5s ease;
+    margin-bottom: 30px;
+}
+
+.timeline-item::before {
+    content: '';
+    position: absolute;
+    bottom: -15px;
+    width: calc(50% + 40px);
+    height: 2px;
+    background: var(--accent-light);
+    opacity: 0.2;
+}
+
+.timeline-item.left::before {
+    right: 0;
+}
+
+.timeline-item.right::before {
+    left: 0;
 }
 
 .timeline-item.visible {
@@ -641,16 +678,25 @@ main {
     transform: translateY(0);
 }
 
+.timeline-item.visible::before {
+    opacity: 1;
+}
+
 .timeline-marker {
     position: absolute;
     left: 50%;
-    top: 50%;
+    bottom: -23px;
     width: 16px;
     height: 16px;
-    background: var(--accent-light);
+    background: rgba(138, 185, 241, 0.2);
     border-radius: 50%;
     margin-left: -8px;
-    z-index: 1;
+    z-index: 3;
+    transition: background-color 0.3s ease;
+}
+
+.timeline-item.visible .timeline-marker {
+    background: var(--accent-light);
 }
 
 .company-content {
@@ -658,30 +704,38 @@ main {
     padding: 20px;
     border-radius: 8px;
     text-align: center;
-    margin: 0 auto;
-    max-width: 300px;
+    margin: 0 0 20px;
+    width: 100%;
+    box-sizing: border-box;
 }
 
 .project-content {
     background: rgba(5, 5, 5, var(--chat-transparency));
     padding: 20px;
     border-radius: 8px;
-    width: calc(50% - 50px);
-    position: relative;
-}
-
-.timeline-item.left .project-content {
-    margin-left: auto;
-    margin-right: 50%;
-}
-
-.timeline-item.right .project-content {
-    margin-left: 50%;
+    width: calc(100% - 50px);
+    box-sizing: border-box;
+    margin-bottom: 20px;
 }
 
 .project-content h4 {
     color: var(--accent-light);
     margin-top: 0;
+    opacity: 0.3;
+    transition: opacity 0.3s ease;
+}
+
+.timeline-item.visible .project-content h4 {
+    opacity: 1;
+}
+
+.project-details {
+    opacity: 0.3;
+    transition: opacity 0.3s ease;
+}
+
+.timeline-item.visible .project-details {
+    opacity: 1;
 }
 
 .project-details p {
@@ -690,7 +744,8 @@ main {
 }
 
 @media (max-width: 768px) {
-    .timeline::after {
+    .timeline::after,
+    .timeline::before {
         left: 31px;
     }
 
@@ -703,13 +758,8 @@ main {
         left: 31px;
     }
 
-    .project-content {
-        width: 100%;
-        margin-left: 0 !important;
-    }
-
-    .company-content {
-        margin-left: 0;
-        text-align: left;
+    .timeline-item::before {
+        width: calc(100% - 70px);
+        left: 70px !important;
     }
 }
