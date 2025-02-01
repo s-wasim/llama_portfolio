@@ -1,11 +1,12 @@
-Arab Unity School - Dubai, UAE (KG1 - Grade 1)
-Beachonhouse School System - Lahore, Pakistan (Grade 1 - Grade 2)
-Arab Unity School - Dubai UAE (Grade 2 - Grade 5)
-Beaconhouse School System - Lahore, Pakistan (Grade 6 - Grade 8)
-Beachonhouse School System - Lahore, Pakistan (O'Level/A'Level)
-    - O'Level CIE Results: 5A's, 3B's
-        - Core Study Computer Science
-    - A'Level CIE Results: 2A's, 2B's
-        - Corse Study Computer Science
-FAST National University of Computers and Emerging Sciences (NUCES) - Lahore, Pakistan (Bachelors Computer Science)
-    - 3.16 CGPA
+School: Beachonhouse School System
+Location: Lahore, Pakistan 
+Studied: Computer Science O'Level
+Grades: 5A's, 3B's
+School: Beachonhouse School System
+Location: Lahore, Pakistan 
+Studied: Computer Science A'Level
+Grades: 2A's, 2B's
+School: FAST National University of Computers and Emerging Sciences (NUCES) 
+Location: Lahore, Pakistan 
+Studied: Bachelors Computer Science
+Grades: 3.16 CGPA

@@ -126,6 +126,40 @@ def create_app():
             logger.error(f"Error parsing work history: {str(e)}")
             return jsonify({'error': str(e)}), 500
 
+    @app.route('/education-details')
+    def education_details():
+        try:
+            with open('portfolio_documents/Education_Details.txt', 'r') as file:
+                content = file.read()
+                schools = []
+                
+                lines = content.split('\n')
+                i = 0
+                while i < len(lines):
+                    line = lines[i].strip()
+                    
+                    if line.startswith('School:'):
+                        school_name = line.replace('School:', '').strip()
+                        location = lines[i + 1].replace('Location:', '').strip()
+                        studied = lines[i + 2].replace('Studied:', '').strip()
+                        grades = lines[i + 3].replace('Grades:', '').strip()
+                        
+                        school = {
+                            'name': school_name,
+                            'location': location,
+                            'studied': studied,
+                            'grades': grades
+                        }
+                        schools.append(school)
+                    
+                    i += 4
+                
+                return jsonify(schools)
+                
+        except Exception as e:
+            logger.error(f"Error parsing education details: {str(e)}")
+            return jsonify({'error': str(e)}), 500
+
     @app.route('/favicon.ico')
     def favicon():
         return send_from_directory('static', 'favicon.ico')

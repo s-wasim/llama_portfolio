@@ -154,6 +154,7 @@ document.addEventListener('DOMContentLoaded', () => {
     });
 
     loadWorkHistory();
+    loadEducation();
 });
 
 async function loadWorkHistory() {
@@ -248,5 +249,87 @@ async function loadWorkHistory() {
         });
     } catch (error) {
         console.error('Error loading work history:', error);
+    }
+}
+
+async function loadEducation() {
+    try {
+        const response = await fetch('/education-details');
+        const data = await response.json();
+        const educationSection = document.querySelector('#education .section-content');
+        
+        let html = '<div class="timeline">';
+        
+        data.forEach((school, index) => {
+            html += `
+                <div class="timeline-item school">
+                    <div class="timeline-marker"></div>
+                    <div class="school-content">
+                        <h3>${school.name}</h3>
+                        <p class="location">${school.location}</p>
+                        <p class="studied">${school.studied}</p>
+                        <p class="grades">${school.grades}</p>
+                    </div>
+                </div>
+            `;
+        });
+        
+        html += '</div>';
+        educationSection.innerHTML = html;
+
+        // Set up scroll-based timeline animation
+        const timeline = document.querySelector('.timeline');
+        const updateTimelineProgress = () => {
+            const timelineRect = timeline.getBoundingClientRect();
+            const timelineStart = timelineRect.top;
+            const viewportMidpoint = window.innerHeight / 2;
+            
+            // Calculate progress based on viewport midpoint
+            let progress;
+            if (timelineStart > viewportMidpoint) {
+                progress = 0;
+            } else if (timelineStart < -timelineRect.height) {
+                progress = 100;
+            } else {
+                const visiblePortion = viewportMidpoint - timelineStart;
+                progress = (visiblePortion / timelineRect.height) * 100;
+                progress = Math.min(Math.max(progress, 0), 100);
+            }
+            
+            timeline.style.setProperty('--timeline-progress', `${progress}%`);
+        };
+
+        // Initial update
+        updateTimelineProgress();
+
+        // Update on scroll
+        window.addEventListener('scroll', updateTimelineProgress);
+        window.addEventListener('resize', updateTimelineProgress);
+
+        // Setup intersection observer for individual items
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                const elementRect = entry.boundingClientRect;
+                const viewportMiddle = window.innerHeight / 2;
+                const elementMiddle = elementRect.top + (elementRect.height / 2);
+                
+                if (entry.isIntersecting && Math.abs(elementMiddle - viewportMiddle) < 150) { // Increased threshold
+                    // Add a small delay before adding the visible class
+                    setTimeout(() => {
+                        entry.target.classList.add('visible');
+                    }, 100);
+                    observer.unobserve(entry.target);
+                }
+            });
+        }, { 
+            threshold: [0, 0.2, 0.4, 0.6, 0.8], // More threshold points
+            rootMargin: '-45% 0px -45% 0px' // Slightly adjusted trigger area
+        });
+
+        document.querySelectorAll('.timeline-item').forEach(item => {
+            observer.observe(item);
+        });
+    } catch (error) {
+        console.error('Error loading education details:', error);
     }
 }
