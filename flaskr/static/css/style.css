@@ -61,7 +61,7 @@ body::after {
     box-shadow: 0 4px 25px rgba(34, 112, 236, 0.2);
     transform: translateY(0);
     transition: transform 0.3s ease;
-    z-index: 1000;
+    z-index: 999;
     display: flex;
     align-items: center;
     justify-content: space-between;
@@ -76,10 +76,9 @@ body::after {
     width: 100%;
     max-width: 1200px;
     margin: 0 auto;
-    display: grid;
-    grid-template-columns: auto 1fr;
-    gap: 25px;
+    display: flex;  /* Change from grid to flex */
     align-items: center;
+    gap: 25px;
 }
 
 .personal-info {
@@ -311,19 +310,188 @@ body::after {
     to { opacity: 1; }
 }
 
+/* Add these new styles before the last media query */
+.hamburger-btn {
+    display: none;
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    z-index: 1001;
+    background: none;
+    border: none;
+    cursor: pointer;
+    padding: 10px;
+    background-color: transparent;
+}
+
+.hamburger-btn span {
+    display: block;
+    width: 25px;
+    height: 3px;
+    background-color: var(--accent-light);
+    margin: 5px 0;
+    transition: 0.3s;
+    transform-origin: left;
+}
+
+.side-panel {
+    position: fixed;
+    top: 0;
+    right: -80%;
+    width: 80%; /* Changed from 300px to 80% */
+    height: 100vh;
+    background-color: rgba(5, 5, 5, 0.95);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    z-index: 1000;
+    transition: 0.3s ease-in-out;
+    padding: 80px 20px 20px;
+    box-shadow: -2px 0 10px rgba(0, 0, 0, 0.3);
+    visibility: hidden;
+    opacity: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.side-panel.open {
+    right: 0;
+    visibility: visible;
+    opacity: 1;
+}
+
+.hamburger-btn.open span:nth-child(1) {
+    transform: rotate(45deg);
+}
+
+.hamburger-btn.open span:nth-child(2) {
+    opacity: 0;
+}
+
+.hamburger-btn.open span:nth-child(3) {
+    transform: rotate(-45deg);
+}
+
+.side-panel h2 {
+    color: var(--accent-light);
+    margin: 0;
+}
+
+.side-panel-contact {
+    display: none;
+}
+
+.side-panel-contact .contact-info {
+    opacity: 1;
+    margin: 0;
+    color: var(--accent-light);
+}
+
+.side-panel-contact .contact-info p {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 15px;
+    font-size: 1rem;
+    opacity: 1;
+}
+
+.side-panel-contact .contact-info p i {
+    margin-right: 10px;
+    width: 20px;
+    text-align: center;
+}
+
+.side-panel-contact .contact-info p {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 15px;
+}
+
+/* New styles for side panel contact info */
+.side-panel .contact-info {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    color: var(--accent-light);
+    margin-top: 30px;
+    font-size: 1rem;
+}
+
+.side-panel .contact-info span {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.side-panel .contact-info i {
+    width: 20px;
+    text-align: center;
+}
+
 /* Remove the mobile dropdown section */
 @media (max-width: 768px) {
-    /* Just leave media query empty or remove it entirely */
+    .hamburger-btn {
+        display: block;
+    }
+    
+    .chat-container {
+        padding: 0 20px;
+    }
+    
+    .header-content {
+        flex-direction: row;  /* Ensure horizontal layout */
+        justify-content: center;
+        gap: 15px;
+    }
+    
+    .header-avatar {
+        margin: 0;  /* Remove auto margins */
+        width: 50px;
+        height: 50px;
+    }
+    
+    .personal-info {
+        min-width: unset;
+    }
+    
+    .contact-info {
+        font-size: 0.75rem;
+    }
+    
+    .side-panel {
+        width: 80%; /* Changed from 250px to 80% */
+        padding: 100px 30px 30px;
+    }
+    
+    #main-header .contact-info {
+        display: none;
+    }
+    
+    .side-panel-contact {
+        display: block;
+        margin-top: 20px;
+    }
+
+    .side-panel-contact .contact-info p {
+        flex-direction: column;
+        text-align: left;
+    }
 }
+
+/* Remove the name-with-avatar class as it's no longer needed */
 
 .header-avatar {
     width: 60px;
     height: 60px;
     border-radius: 50%;
-    background-image: url('/static/bot.jpg');
+    background-image: url('/static/bot.jpg');  /* Change image path */
     background-size: cover;
     background-position: center;
     border: 2px solid var(--accent-light);
+    flex-shrink: 0;  /* Prevent avatar from shrinking */
 }
 
-/* Remove the name-with-avatar class as it's no longer needed */
+/* New class to disable scrolling */
+body.no-scroll {
+    overflow: hidden;
+}

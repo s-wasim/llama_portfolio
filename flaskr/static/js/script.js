@@ -1,4 +1,24 @@
 document.addEventListener('DOMContentLoaded', () => {
+    const hamburgerBtn = document.querySelector('.hamburger-btn');
+    const sidePanel = document.querySelector('.side-panel');
+
+    hamburgerBtn.addEventListener('click', () => {
+        hamburgerBtn.classList.toggle('open');
+        sidePanel.classList.toggle('open');
+        document.body.classList.toggle('no-scroll');
+    });
+
+    // Close panel when clicking outside and remove no-scroll
+    document.addEventListener('click', (e) => {
+        if (!hamburgerBtn.contains(e.target) && 
+            !sidePanel.contains(e.target) && 
+            sidePanel.classList.contains('open')) {
+            hamburgerBtn.classList.remove('open');
+            sidePanel.classList.remove('open');
+            document.body.classList.remove('no-scroll');
+        }
+    });
+
     const displayArea = document.getElementById('display-area');
     const messageInput = document.getElementById('message-input');
     const submitButton = document.getElementById('submit-btn');
