@@ -258,11 +258,11 @@ async function loadEducation() {
         const data = await response.json();
         const educationSection = document.querySelector('#education .section-content');
         
-        let html = '<div class="timeline">';
+        let html = '<div class="education-timeline">';
         
         data.forEach((school, index) => {
             html += `
-                <div class="timeline-item school">
+                <div class="education-timeline-item school">
                     <div class="timeline-marker"></div>
                     <div class="school-content">
                         <h3>${school.name}</h3>
@@ -278,7 +278,7 @@ async function loadEducation() {
         educationSection.innerHTML = html;
 
         // Set up scroll-based timeline animation
-        const timeline = document.querySelector('.timeline');
+        const timeline = document.querySelector('.education-timeline');
         const updateTimelineProgress = () => {
             const timelineRect = timeline.getBoundingClientRect();
             const timelineStart = timelineRect.top;
@@ -296,7 +296,7 @@ async function loadEducation() {
                 progress = Math.min(Math.max(progress, 0), 100);
             }
             
-            timeline.style.setProperty('--timeline-progress', `${progress}%`);
+            timeline.style.setProperty('--education-timeline-progress', progress / 100);
         };
 
         // Initial update
@@ -326,7 +326,7 @@ async function loadEducation() {
             rootMargin: '-45% 0px -45% 0px' // Slightly adjusted trigger area
         });
 
-        document.querySelectorAll('.timeline-item').forEach(item => {
+        document.querySelectorAll('.education-timeline-item').forEach(item => {
             observer.observe(item);
         });
     } catch (error) {
