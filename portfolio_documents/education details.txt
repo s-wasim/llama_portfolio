@@ -1,0 +1,20 @@
+[DOCUMENT_TYPE: EDUCATION]
+[SUBJECT: SAAD_WASEEM]
+
+[SECONDARY_EDUCATION]
+INSTITUTION: Beaconhouse School System
+LOCATION: Lahore, Pakistan
+PROGRAM: O'Level Computer Science
+GRADES: 5A's, 3B's
+
+[HIGHER_SECONDARY_EDUCATION]
+INSTITUTION: Beaconhouse School System
+LOCATION: Lahore, Pakistan
+PROGRAM: A'Level Computer Science
+GRADES: 2A's, 2B's
+
+[UNIVERSITY_EDUCATION]
+INSTITUTION: FAST National University of Computers and Emerging Sciences (NUCES)
+LOCATION: Lahore, Pakistan
+PROGRAM: Bachelor's in Computer Science
+PERFORMANCE: CGPA 3.16

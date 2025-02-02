@@ -1,0 +1,80 @@
+[DOCUMENT_TYPE: PROFESSIONAL_EXPERIENCE]
+[SUBJECT: SAAD]
+
+[EMPLOYMENT_SECTION_1]
+EMPLOYER: Xavor Pvt. Limited
+DURATION: July 2023 - January 2025
+ROLE: Data Engineer
+
+[PROJECT_1]
+TITLE: Data Processing for BOM GEN Tool
+DURATION: July 2024 - January 2025
+RESPONSIBILITIES:
+- Pipeline Development: Created pipelines in Azure Data Factory for data processing from OneDrive Excel and SQL Servers
+- Data Modeling: Developed star-schema model in Azure Synapse for warehousing
+- Automation: Implemented Power Automate for incremental data refreshes
+- Business Support: Enhanced procurement and production processes for manufacturing
+TECHNOLOGIES: Microsoft PowerApps, Azure Data Factory, Azure Synapse, Power Automate
+
+[PROJECT_2]
+TITLE: Data Processing for Tiered Metrics
+DURATION: August 2023 - January 2025
+RESPONSIBILITIES:
+- Data Migration: Transferred data from Agile and SQL Server to Amazon S3 using Airflow
+- Data Warehousing: Implemented Snowflake staging with metadata-driven refreshes
+- Analytics: Applied dimensional modeling for KPIs and production metrics
+TECHNOLOGIES: Microsoft SQL Server, Airflow, Snowflake, Amazon S3
+
+[PROJECT_3]
+TITLE: BOM GEN Tool Dashboard
+DURATION: July 2023 - January 2025
+RESPONSIBILITIES:
+- Dashboard Development: Built Power BI solution for procurement and production
+- Data Modeling: Implemented star-schema with DAX formulas
+TECHNOLOGIES: Power BI
+
+[PROJECT_4]
+TITLE: Tiered Metrics Dashboard
+DURATION: August 2023 - January 2025
+RESPONSIBILITIES:
+- Metrics Integration: Implemented galaxy schema with DAX expressions
+- Requirements Gathering: Collaborated for scalable design
+- Visualization: Created decision-support visuals
+TECHNOLOGIES: Power BI
+
+[PROJECT_5]
+TITLE: Kanban Health Dashboard
+DURATION: June 2024 - November 2024
+RESPONSIBILITIES:
+- Dashboard Creation: Built Power BI solution for work order management
+- Data Integration: Utilized Minitab Connect data model
+TECHNOLOGIES: Power BI
+
+[PROJECT_6]
+TITLE: Stock Prediction Model
+DURATION: January 2024 - January 2025
+RESPONSIBILITIES:
+- ML Development: Built ViT-based stock forecasting model
+- NLP Integration: Added sentiment analysis for predictions
+- Deployment: Implemented Azure Container with API integration
+TECHNOLOGIES: Azure Container, PyTorch, Spacy
+
+[PROJECT_7]
+TITLE: Facial Recognition Attendance System
+DURATION: June 2024
+RESPONSIBILITIES:
+- Feature Engineering: Developed OpenCV feature masks
+- ML Implementation: Applied vector embedding and transfer learning
+- System Development: Created employee attendance tracking system
+- Deployment: Containerized solution with Docker on local GPU
+TECHNOLOGIES: OpenCV, Docker, GPU Computing
+
+[EMPLOYMENT_SECTION_2]
+EMPLOYER: Addo AI
+DURATION: January 2025 - Present
+ROLE: Data Engineer
+
+[PROJECT_8]
+TITLE: Building Citizen Data Store
+DURATION: Ongoing
+STATUS: In Progress

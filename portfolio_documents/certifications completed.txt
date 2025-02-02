@@ -1,0 +1,30 @@
+[DOCUMENT_TYPE: CERTIFICATIONS]
+[SUBJECT: SAAD_WASEEM]
+
+[CERTIFICATION_1]
+TITLE: SQL Associate Certificate
+ISSUER: Datacamp
+VERIFICATION_LINK: https://www.datacamp.com/certificate/SQA0011727469884
+
+[COMPETENCY_DOMAINS]
+- Data Management
+- Exploratory Analysis
+
+[ASSESSMENT_METHOD]
+- Timed exams
+- Adaptive testing
+- Practical exam submission
+
+[CERTIFICATION_2]
+TITLE: PL900 PowerPlatform Fundamentals
+ISSUER: Microsoft
+VERIFICATION_LINK: https://learn.microsoft.com/api/credentials/share/en-gb/SaadWaseem-5465/64F0B6F55F2EAEF6?sharingId=AE9A92B732D5BB32
+
+[SKILLS_MEASURED]
+- Microsoft Power Platform business value
+- Power Platform foundational components
+- Power BI capabilities
+- Power Apps capabilities
+- Power Automate capabilities
+- Power Pages capabilities
+- AI authoring experience in Microsoft Power Platform
