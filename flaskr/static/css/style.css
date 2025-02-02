@@ -140,12 +140,11 @@ body::after {
     width: 100%;
     margin: var(--header-height) 0 0 0;
     padding: 40px 0;
-    min-height: calc(100vh - var(--header-height));
+    height: calc(100vh - var(--header-height));
     display: flex;
     flex-direction: column;
     box-sizing: border-box;
-    /* Remove position: sticky and top properties */
-    /* Remove overflow: hidden */
+    position: relative;
 }
 
 #display-area {
@@ -167,11 +166,10 @@ body::after {
     flex-direction: column;
     gap: 15px;
     backdrop-filter: blur(5px);
-    max-height: calc(100% - 120px); /* Account for input container height */
+    height: calc(100vh - var(--header-height) - 200px); /* Adjust height to account for header and input */
     scrollbar-width: thin; /* Firefox */
     scrollbar-color: var(--accent-light) var(--secondary-dark); /* Firefox */
     -ms-overflow-style: none; /* IE and Edge */
-    height: 60vh; /* Fixed height for chat area */
     min-height: 400px;
 }
 
@@ -183,7 +181,7 @@ body::after {
 #display-area::-webkit-scrollbar-track {
     background: var(--secondary-dark);
     border-radius: 4px;
-    box-shadow: inset 0 0 5px rgba(0, 0, 0, 0.3);
+    margin: 4px 0;
 }
 
 #display-area::-webkit-scrollbar-thumb {
