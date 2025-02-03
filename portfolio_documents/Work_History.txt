@@ -27,7 +27,7 @@ Integrated business metrics using a galaxy schema and DAX expressions.
 Collaborated with users to gather insights for scalable model design.
 Produced visuals for daily decision-making processes.
 PROJECT TOOLS: Power BI
-PROJECT NAME: Kanban Health Dashboard Development June 2024 – November 2024
+PROJECT NAME: Kanban Health Dashboard Development June 2024 - November 2024
 PROJECT DETAILS: 
 Created an interactive dashboard in Power BI to manage pull work orders.
 Utilized an existing Minitab Connect data model.
@@ -45,7 +45,7 @@ Used vector embedding to enhance input features.
 Applied transfer learning to various facial recognition systems.
 Trained model to produce accurate attendance data for registered employees.
 Deployed model creating a container using Docker to a local GPU device accessible through
-the company’s local server.
+the company's local server.
 PROJECT TOOLS: OpenCV, Docker, Local GPU Device
 
 Addo AI 
