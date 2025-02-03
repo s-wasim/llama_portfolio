@@ -59,4 +59,5 @@ def chat():
         }), 500
     
 if __name__ == '__main__':
+    print('PROD_VERSION_1.0')
     app.run(host=os.environ.get('API_HOST_URL'), port=os.environ.get('API_PORT'))
