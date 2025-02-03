@@ -233,6 +233,38 @@ def create_app():
             logger.error(f"Error parsing courses studied: {str(e)}")
             return jsonify({'error': str(e)}), 500
 
+    @app.route('/projects')
+    def get_projects():
+        try:
+            projects = []
+            with open('portfolio_documents/Personal_Projects.txt', 'r') as file:
+                lines = file.readlines()
+                i = 0
+                while i < len(lines):
+                    line = lines[i].strip()
+                    if line.startswith(('1)', '2)', '3)', '4)', '5)', '6)', '7)', '8)', '9)')):
+                        # Extract project name after the "Project - " part
+                        name_parts = line.split(' - ', 1)
+                        if len(name_parts) > 1:
+                            project_name = name_parts[1].strip()
+                            # Get description from next line
+                            if i + 1 < len(lines):
+                                description = lines[i + 1].strip()
+                                if description.startswith('Project Description:'):
+                                    description = description.replace('Project Description:', '').strip()
+                                    projects.append({
+                                        'name': project_name,
+                                        'description': description
+                                    })
+                    i += 1
+
+            logger.info(f"Loaded {len(projects)} projects")  # Add logging
+            return jsonify(projects)
+                
+        except Exception as e:
+            logger.error(f"Error parsing projects: {str(e)}")
+            return jsonify({'error': str(e)}), 500
+
     @app.route('/favicon.ico')
     def favicon():
         return send_from_directory('static', 'favicon.ico')

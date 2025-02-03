@@ -157,6 +157,7 @@ document.addEventListener('DOMContentLoaded', () => {
     loadEducation();
     loadCertifications();
     loadCourses();
+    loadProjects();
 });
 
 async function loadWorkHistory() {
@@ -389,4 +390,89 @@ async function loadCourses() {
     } catch (error) {
         console.error('Error loading courses studied:', error);
     }
+}
+
+let slideIndex = 1;
+
+function loadProjects() {
+    fetch('/projects')
+        .then(response => response.json())
+        .then(projects => {
+            console.log('Loaded projects:', projects); // Add debugging
+            
+            const slideshowContainer = document.querySelector('.slideshow-container');
+            const dotContainer = document.querySelector('.dot-container');
+            
+            if (!projects || projects.length === 0) {
+                slideshowContainer.innerHTML = '<p class="project-description">No projects found</p>';
+                return;
+            }
+            
+            // Clear any existing content
+            slideshowContainer.innerHTML = '';
+            dotContainer.innerHTML = '';
+            
+            // Add navigation buttons
+            slideshowContainer.innerHTML = `
+                <a class="prev" onclick="plusSlides(-1)">&#10094;</a>
+                <a class="next" onclick="plusSlides(1)">&#10095;</a>
+            `;
+            
+            // Create slides
+            projects.forEach((project, index) => {
+                const slide = document.createElement('div');
+                slide.className = 'mySlides fade';
+                slide.innerHTML = `
+                    <h3 class="project-title">${project.name || 'Untitled Project'}</h3>
+                    <p class="project-description">${project.description || 'No description available'}</p>
+                `;
+                // Insert slide before the navigation buttons
+                slideshowContainer.insertBefore(slide, slideshowContainer.querySelector('.prev'));
+                
+                // Create dot
+                const dot = document.createElement('span');
+                dot.className = 'dot';
+                dot.onclick = () => currentSlide(index + 1);
+                dotContainer.appendChild(dot);
+            });
+            
+            showSlides(slideIndex);
+        })
+        .catch(error => {
+            console.error('Error loading projects:', error);
+            const slideshowContainer = document.querySelector('.slideshow-container');
+            slideshowContainer.innerHTML = '<p class="project-description">Error loading projects</p>';
+        });
+}
+
+function plusSlides(n) {
+    showSlides(slideIndex += n);
+}
+
+function currentSlide(n) {
+    showSlides(slideIndex = n);
+}
+
+function showSlides(n) {
+    const slides = document.getElementsByClassName("mySlides");
+    const dots = document.getElementsByClassName("dot");
+    
+    if (!slides.length) return;
+    
+    if (n > slides.length) slideIndex = 1;
+    if (n < 1) slideIndex = slides.length;
+    
+    // Remove active class from all slides and dots
+    Array.from(slides).forEach(slide => {
+        slide.style.display = "none";
+        slide.classList.remove("active");
+    });
+    Array.from(dots).forEach(dot => dot.classList.remove("active"));
+    
+    // Add active class to current slide and dot
+    slides[slideIndex-1].style.display = "block";
+    setTimeout(() => {
+        slides[slideIndex-1].classList.add("active");
+    }, 0);
+    dots[slideIndex-1].classList.add("active");
 }
