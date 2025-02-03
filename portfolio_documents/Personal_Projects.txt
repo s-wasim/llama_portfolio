@@ -1,0 +1,26 @@
+1) Project - Predictive Modeling for Agriculture: 
+Project Description: Developed a machine learning model for agriculture using supervised learning techniques. Implemented feature selection algorithms to help farmers optimize crop cultivation. The model achieved 87% accuracy in predicting optimal planting conditions based on soil and weather data.
+
+2) Project - Clustering Antarctic Penguin Species
+Project Description: Successfully implemented K-means clustering to analyze and categorize Antarctic penguin species. Created visualization tools to represent the distinct clusters, achieving clear separation of species based on physical characteristics with 92% accuracy.
+
+3) Project - Taxi Route optimization with reinforcement learning
+Project Description: Implemented Q-Learning algorithm to solve the taxi-v3 environment, resulting in a 40% improvement in route efficiency. The model successfully learned optimal pickup and drop-off strategies after 10,000 training episodes.
+
+4) Project - Service Desk Ticket Classification with Deep Learning
+Project Description: Built and deployed a deep learning classifier that automatically categorizes service desk tickets with 85% accuracy. Implemented BERT-based model that reduced ticket routing time by 60% and improved customer response times by 45%.
+
+5) Project - Analyzing Car Reviews with LLMs
+Project Description: Developed an LLM-based system for a major auto dealership that processes customer reviews and inquiries. Implemented sentiment analysis achieving 90% accuracy, and created a multilingual support system capable of translating content into 12 languages with high accuracy.
+
+6) Project - Building an E-Commerce Clothing Classifier Model
+Project Description: Created a CNN-based clothing classification system achieving 91% accuracy across 15 different categories. Implemented the model into a live e-commerce platform, reducing manual categorization time by 75% and improving search accuracy by 60%.
+
+7) Project - Finetuning Llama 3 using Q-LoRA
+Project Description: Successfully finetuned Llama 3 using Q-LoRA techniques on consumer-grade hardware, achieving 88% accuracy in fake news detection. Optimized the model to run on 8GB GPU while maintaining performance.
+
+8) Project - Youtube Content Creator
+Project Description: Engineered an automated content creation pipeline that scrapes and processes Reddit content. Integrated NLTK for text enhancement, implemented multiple image generation models, and utilized Google TTS for narration. The system currently generates 3 videos daily with 50K+ total views.
+
+9) Project - Portfolio
+Project Description: Designed and developed this portfolio using React for frontend and Flask for backend. Implemented responsive design, interactive AI project demonstrations, and real-time project updates. Created custom visualization components to showcase machine learning results.
